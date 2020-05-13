@@ -19,6 +19,13 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class PrintFiles extends SimpleFileVisitor<Path> {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private static final Set<Character> IGNORED = fill();
+
+    private static Set<Character> fill() {
+        Set<Character> ignored = new HashSet<>();
+        Collections.addAll(ignored, '[', ']', '(', ')', ',', ';', ' ', '.', '&', '+', '#', '$', '!', '\'');
+        return ignored;
+    }
 
     @Override
     public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
@@ -27,13 +34,7 @@ public class PrintFiles extends SimpleFileVisitor<Path> {
         if (FilenameChecker.isInvalid(oldName, file.isDirectory())) {
             String cleaned = FilenameCleaner.clean(oldName, file.isDirectory());
 
-            Set<Character> removedChars = getUniqueLowerCaseChars(oldName);
-            removedChars.removeAll(getUniqueLowerCaseChars(cleaned));
-
-            Set<Character> ignored = new HashSet<>();
-            Collections.addAll(ignored, '[', ']', '(', ')', ',', ';', ' ', '.', '&', '+', '#', '$', '!', '\'');
-
-            removedChars.removeAll(ignored);
+            Set<Character> removedChars = getRemovedChars(oldName, cleaned);
 
             if (removedChars.size() > 0) {
                 LOGGER.info("{} has removed >> {} << {}",
@@ -49,6 +50,13 @@ public class PrintFiles extends SimpleFileVisitor<Path> {
         }
 //        LOGGER.info("walked dir {}", dir);
         return CONTINUE;
+    }
+
+    private Set<Character> getRemovedChars(String oldName, String cleaned) {
+        Set<Character> removedChars = getUniqueLowerCaseChars(oldName);
+        removedChars.removeAll(getUniqueLowerCaseChars(cleaned));
+        removedChars.removeAll(IGNORED);
+        return removedChars;
     }
 
     private Set<Character> getUniqueLowerCaseChars(String oldName) {
