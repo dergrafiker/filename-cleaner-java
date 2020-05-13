@@ -28,7 +28,11 @@ public class PrintFiles extends SimpleFileVisitor<Path> {
     }
 
     @Override
-    public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+        if (exc != null) {
+            throw exc;
+        }
+
         final File file = dir.toFile();
         String oldName = file.getName();
         if (FilenameChecker.isInvalid(oldName, file.isDirectory())) {
@@ -37,18 +41,18 @@ public class PrintFiles extends SimpleFileVisitor<Path> {
             Set<Character> removedChars = getRemovedChars(oldName, cleaned);
 
             if (removedChars.size() > 0) {
-                LOGGER.info("{} has removed >> {} << {}",
+                LOGGER.info("REMOVEDCHARS {} has removed >> {} << {}",
                             oldName,
                             StringUtils.join(removedChars),
                             cleaned);
             }
 
-//            LOGGER.info("'{}' => '{}' [{}]",
-//                        StringUtils.rightPad(oldName, 70, ' '),
-//                        StringUtils.rightPad(cleaned, 70, ' '),
-//                        file.getParentFile().getAbsolutePath());
+            LOGGER.info("RENAME '{}' => '{}' [{}]",
+                        oldName,
+                        cleaned,
+                        file.getParentFile().getAbsolutePath());
         }
-//        LOGGER.info("walked dir {}", dir);
+        LOGGER.info("WALKED dir {}", dir);
         return CONTINUE;
     }
 
