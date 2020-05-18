@@ -9,6 +9,10 @@ import org.apache.commons.lang3.StringUtils;
     Limit the length of the string returned by path::string() to 255 characters.
     */
 public class FilenameChecker {
+
+    private FilenameChecker() {
+    }
+
     public static boolean isInvalid(final String input, final boolean isDirectory) {
         return wrongStartOrEnd(input)
                 || wrongDirectoryname(isDirectory, input)

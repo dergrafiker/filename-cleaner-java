@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class PrintFiles extends SimpleFileVisitor<Path> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrintFiles.class);
     private static final Set<Character> IGNORED = fill();
 
     private static Set<Character> fill() {
@@ -40,7 +40,7 @@ public class PrintFiles extends SimpleFileVisitor<Path> {
 
             Set<Character> removedChars = getRemovedChars(oldName, cleaned);
 
-            if (removedChars.size() > 0) {
+            if (!removedChars.isEmpty() && LOGGER.isInfoEnabled()) {
                 LOGGER.info("REMOVEDCHARS {} has removed >> {} << {}",
                             oldName,
                             StringUtils.join(removedChars),

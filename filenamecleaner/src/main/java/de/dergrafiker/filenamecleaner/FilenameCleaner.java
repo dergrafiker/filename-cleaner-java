@@ -3,6 +3,8 @@ package de.dergrafiker.filenamecleaner;
 import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.Normalizer;
 import java.util.regex.Matcher;
@@ -10,18 +12,23 @@ import java.util.regex.Matcher;
 
 public class FilenameCleaner {
 
-    public static final String[] SEARCH_UMLAUTS = {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FilenameCleaner.class);
+
+    private FilenameCleaner() {
+    }
+
+    private static final String[] SEARCH_UMLAUTS = {
             "\u00c4", "\u00e4",
             "\u00d6", "\u00f6",
             "\u00dc", "\u00fc",
             "\u00df"};
-    public static final String[] REPLACE_UMLAUTS = {
+    private static final String[] REPLACE_UMLAUTS = {
             "Ae", "ae",
             "Oe", "oe",
             "Ue", "ue",
             "ss"};
-    public static final String[] SEARCH_DASHES = {"_-_", "-_", "_-"};
-    public static final String[] REPLACE_DASHES = {"-", "-", "-"};
+    private static final String[] SEARCH_DASHES = {"_-_", "-_", "_-"};
+    private static final String[] REPLACE_DASHES = {"-", "-", "-"};
 
     static String clean(final String name, final boolean isDirectory) {
         String output = name.trim();
@@ -33,8 +40,9 @@ public class FilenameCleaner {
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
         output = StringUtils.stripAccents(output);
 
-        if (!Normalizer.normalize(output, Normalizer.Form.NFD).equalsIgnoreCase(output)) {
-            System.out.println();
+        String normalized = Normalizer.normalize(output, Normalizer.Form.NFD);
+        if (!normalized.equalsIgnoreCase(output)) {
+            LOGGER.error("NORMALIZATION LOOKS FISHY {} -> {}", output, normalized);
         }
 
         output = StringUtils.replace(output, "&", " Et ");
