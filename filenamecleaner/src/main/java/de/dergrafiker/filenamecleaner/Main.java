@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 
 public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private static final RemovedCharsUtil removedCharsUtil = new RemovedCharsUtil();
 
     public static void main(String[] args) {
         try {
@@ -18,7 +19,7 @@ public class Main {
             Preconditions.checkArgument(args.length == 1, "Please provide a root path");
 
             final Path rootPath = Paths.get(args[0]);
-            PrintFiles pf = new PrintFiles();
+            PrintFiles pf = new PrintFiles(removedCharsUtil);
             Files.walkFileTree(rootPath, pf);
         } catch (IOException e) {
             LOGGER.error("", e);
