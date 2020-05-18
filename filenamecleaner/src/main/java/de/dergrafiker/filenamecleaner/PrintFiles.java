@@ -40,7 +40,7 @@ public class PrintFiles extends SimpleFileVisitor<Path> {
 
             Set<Character> removedChars = getRemovedChars(oldName, cleaned);
 
-            if (!removedChars.isEmpty() && LOGGER.isInfoEnabled()) {
+            if (LOGGER.isInfoEnabled() && !removedChars.isEmpty()) {
                 LOGGER.info("REMOVEDCHARS {} has removed >> {} << {}",
                             oldName,
                             StringUtils.join(removedChars),
