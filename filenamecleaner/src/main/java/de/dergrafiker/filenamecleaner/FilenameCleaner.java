@@ -5,17 +5,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.text.Normalizer;
 import java.util.regex.Matcher;
 
-
+@Component
 public class FilenameCleaner {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(FilenameCleaner.class);
-
-    private FilenameCleaner() {
-    }
 
     private static final String[] SEARCH_UMLAUTS = {
             "\u00c4", "\u00e4",
@@ -30,7 +27,13 @@ public class FilenameCleaner {
     private static final String[] SEARCH_DASHES = {"_-_", "-_", "_-"};
     private static final String[] REPLACE_DASHES = {"-", "-", "-"};
 
-    static String clean(final String name, final boolean isDirectory) {
+    private final MatcherUtil matcherUtil;
+
+    public FilenameCleaner(MatcherUtil matcherUtil) {
+        this.matcherUtil = matcherUtil;
+    }
+
+    String clean(final String name, final boolean isDirectory) {
         String output = name.trim();
 
         if (isDirectory) {
@@ -50,21 +53,21 @@ public class FilenameCleaner {
         output = replaceUppercaseWords(output);
         output = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, output);
 
-        output = MatcherUtil.getMatcher(RegexConstants.INVALIDCHARS, output).replaceAll(" ");
+        output = matcherUtil.getMatcher(RegexConstants.INVALIDCHARS, output).replaceAll(" ");
         output = output.trim();
 
-        output = MatcherUtil.getMatcher("\\s+", output).replaceAll("_");
-        output = MatcherUtil.getMatcher("_+", output).replaceAll("_");
+        output = matcherUtil.getMatcher("\\s+", output).replaceAll("_");
+        output = matcherUtil.getMatcher("_+", output).replaceAll("_");
 
         output = StringUtils.replaceEach(output, SEARCH_DASHES, REPLACE_DASHES);
 
         return output;
     }
 
-    static String replaceUppercaseWords(final String output) {
+    String replaceUppercaseWords(final String output) {
         String cleaned = output;
 
-        final Matcher matcher = MatcherUtil.getMatcher(RegexConstants.MANYUPPERCASE, output);
+        final Matcher matcher = matcherUtil.getMatcher(RegexConstants.MANYUPPERCASE, output);
 
         while (matcher.find()) {
             String ucWord = matcher.group();

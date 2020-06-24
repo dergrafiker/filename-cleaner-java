@@ -2,27 +2,41 @@ package de.dergrafiker.filenamecleaner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Main {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
-    private static final RemovedCharsUtil removedCharsUtil = new RemovedCharsUtil();
+@SpringBootApplication
+public class Main implements CommandLineRunner {
+    private static final Logger LOG = LoggerFactory.getLogger(Main.class);
+
+    private final PrintFiles printFiles;
+
+    public Main(PrintFiles printFiles) {
+        this.printFiles = printFiles;
+    }
 
     public static void main(String[] args) {
+        LOG.info("STARTING THE APPLICATION");
+        SpringApplication.run(Main.class, args);
+        LOG.info("APPLICATION FINISHED");
+    }
+
+    @Override
+    public void run(String... args) {
         try {
-            LOGGER.info("run main");
             if (args.length != 1) {
                 throw new IllegalArgumentException("Please provide a root path");
             }
             final Path rootPath = Paths.get(args[0]);
-            PrintFiles pf = new PrintFiles(removedCharsUtil);
-            Files.walkFileTree(rootPath, pf);
+            Files.walkFileTree(rootPath, printFiles);
         } catch (IOException e) {
-            LOGGER.error("", e);
+            LOG.error("", e);
         }
     }
 }
