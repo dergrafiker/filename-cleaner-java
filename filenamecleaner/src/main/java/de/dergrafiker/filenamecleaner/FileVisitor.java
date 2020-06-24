@@ -15,14 +15,14 @@ import java.util.Set;
 import static java.nio.file.FileVisitResult.CONTINUE;
 
 @Component
-public class PrintFiles extends SimpleFileVisitor<Path> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PrintFiles.class);
+public class FileVisitor extends SimpleFileVisitor<Path> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileVisitor.class);
     private final RemovedCharsUtil removedCharsUtil;
     private final FilenameChecker filenameChecker;
     private final FilenameCleaner filenameCleaner;
 
-    public PrintFiles(RemovedCharsUtil removedCharsUtil, FilenameChecker filenameChecker,
-                      FilenameCleaner filenameCleaner) {
+    public FileVisitor(RemovedCharsUtil removedCharsUtil, FilenameChecker filenameChecker,
+                       FilenameCleaner filenameCleaner) {
         this.removedCharsUtil = removedCharsUtil;
         this.filenameChecker = filenameChecker;
         this.filenameCleaner = filenameCleaner;
@@ -53,7 +53,7 @@ public class PrintFiles extends SimpleFileVisitor<Path> {
                         cleaned,
                         file.getParentFile().getAbsolutePath());
         }
-        LOGGER.info("WALKED dir {}", dir);
+        LOGGER.trace("WALKED dir {}", dir);
         return CONTINUE;
     }
 

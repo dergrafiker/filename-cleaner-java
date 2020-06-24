@@ -15,9 +15,9 @@ import java.nio.file.Paths;
 public class Main implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
-    private final PrintFiles printFiles;
+    private final FileVisitor printFiles;
 
-    public Main(PrintFiles printFiles) {
+    public Main(FileVisitor printFiles) {
         this.printFiles = printFiles;
     }
 
