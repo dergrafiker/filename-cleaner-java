@@ -20,7 +20,6 @@ import java.nio.file.Paths;
         FilenameCleaner.class,
         FileVisitor.class,
         MatcherUtil.class,
-        RegexConstants.class,
         RemovedCharsUtil.class
 })
 public class Main implements CommandLineRunner {
