@@ -4,14 +4,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@SpringBootApplication
+@Configuration
+@Import({
+        FilenameChecker.class,
+        FilenameCleaner.class,
+        FileVisitor.class,
+        MatcherUtil.class,
+        RegexConstants.class,
+        RemovedCharsUtil.class
+})
 public class Main implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
