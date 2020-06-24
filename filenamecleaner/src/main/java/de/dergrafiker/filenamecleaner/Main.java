@@ -16,11 +16,13 @@ import java.nio.file.Paths;
 
 @Configuration
 @Import({
+        CaseSensivityChecker.class,
         FilenameChecker.class,
         FilenameCleaner.class,
         FileVisitor.class,
         MatcherUtil.class,
-        RemovedCharsUtil.class
+        RemovedCharsUtil.class,
+        RenameUtil.class
 })
 public class Main implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
