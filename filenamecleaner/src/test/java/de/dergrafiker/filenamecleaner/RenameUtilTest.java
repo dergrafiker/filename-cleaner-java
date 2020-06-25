@@ -1,7 +1,12 @@
 package de.dergrafiker.filenamecleaner;
 
+import org.easymock.EasyMockExtension;
+import org.easymock.EasyMockSupport;
+import org.easymock.Mock;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,11 +19,20 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RenameUtilTest {
+@ExtendWith(EasyMockExtension.class)
+class RenameUtilTest extends EasyMockSupport {
 
-    RenameUtil renameUtil = new RenameUtil();
+    @Mock
+    CaseSensivityChecker caseSensivityChecker;
+
+    RenameUtil renameUtil;
 
     static Set<Path> cleanupAfterRun = new HashSet<>();
+
+    @BeforeEach
+    void setUp() {
+        renameUtil = new RenameUtil(caseSensivityChecker);
+    }
 
     @Test
     void name() throws IOException {
