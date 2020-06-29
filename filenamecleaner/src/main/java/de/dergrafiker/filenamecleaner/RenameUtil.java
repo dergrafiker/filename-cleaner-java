@@ -28,16 +28,18 @@ public class RenameUtil {
         if (caseSensivityChecker.isCaseSensitive(target)) {
             Files.move(source, target); // move directly
         } else {
-            Path temp;
-
-            if (Files.isRegularFile(source)) {
-                temp = target.getParent().resolve(target.getFileName().toString() + "-temp");
-            } else {
-                temp = target;
-            }
+            Path temp = determineTempPath(source);
 
             Files.move(source, temp);
             Files.move(temp, target);
+        }
+    }
+
+    private Path determineTempPath(Path source) {
+        if (Files.isDirectory(source)) {
+            return source;
+        } else {
+            return source.getParent().resolve(source.getFileName().toString() + "-temp");
         }
     }
 }

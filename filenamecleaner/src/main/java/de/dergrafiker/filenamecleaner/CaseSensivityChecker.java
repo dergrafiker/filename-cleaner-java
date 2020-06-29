@@ -25,17 +25,19 @@ public class CaseSensivityChecker {
         if (Files.exists(lowerCase) || Files.exists(upperCase)) {
             throw new IllegalArgumentException(
                     String.format("One Filename already exists in target.(lowerCase=%s, upperCase=%s)",
-                                  lowerCase, upperCase));
+                            lowerCase, upperCase));
         }
 
-        boolean isCaseSensitive;
+        return isCaseSensitive(lowerCase, upperCase);
+    }
+
+    private boolean isCaseSensitive(Path lowerCase, Path upperCase) throws IOException {
         try {
             Files.createFile(lowerCase);
-            isCaseSensitive = !Files.exists(upperCase);
+            return !Files.exists(upperCase); //when uc file has not been created but is here reported as existing file then the filesystem is case-insensitive
         } finally {
             Files.deleteIfExists(lowerCase);
         }
-        return isCaseSensitive;
     }
 
     private Path getDir(Path path) {
