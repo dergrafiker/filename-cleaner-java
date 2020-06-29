@@ -30,7 +30,7 @@ public class RenameUtil {
         } else {
             Path temp;
 
-            if (Files.isRegularFile(target)) {
+            if (Files.isRegularFile(source)) {
                 temp = target.getParent().resolve(target.getFileName().toString() + "-temp");
             } else {
                 temp = target;

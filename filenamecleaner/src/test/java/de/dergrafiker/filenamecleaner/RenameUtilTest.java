@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.easymock.EasyMock.expect;
 
 @ExtendWith(EasyMockExtension.class)
 class RenameUtilTest extends EasyMockSupport {
@@ -45,7 +46,12 @@ class RenameUtilTest extends EasyMockSupport {
         Path upperCaseFile = tempDirectory.resolve(sourceName.toUpperCase());
 
         Files.createFile(lowerCaseFile);
+
+        expect(caseSensivityChecker.isCaseSensitive(upperCaseFile)).andReturn(false);
+
+        replayAll();
         renameUtil.rename(lowerCaseFile, upperCaseFile);
+        verifyAll();
 
         List<Path> results = Files.walk(tempDirectory).filter(path -> Files.isRegularFile(path))
                 .collect(Collectors.toList());
