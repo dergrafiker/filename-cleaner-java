@@ -1,51 +1,19 @@
 package de.dergrafiker.filenamecleaner;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Component
 public class CaseSensivityChecker {
 
-    public boolean isCaseSensitive(Path path) throws IOException {
-        if (!Files.isWritable(path)) {
-            throw new IllegalArgumentException(
-                    String.format("Paths must be writable to test for case sensivity (path=%s)", path));
-        }
+    public boolean isCaseSensitive(Path path) {
+        String originalFilename = path.getFileName().toString();
 
-        Path pathToWriteTo = getDir(path);
+        Path lc = path.getParent().resolve(originalFilename.toLowerCase());
+        Path uc = path.getParent().resolve(originalFilename.toUpperCase());
 
-        String randomName = RandomStringUtils.randomAlphabetic(10);
-        Path lowerCase = pathToWriteTo.resolve(randomName.toLowerCase());
-        Path upperCase = pathToWriteTo.resolve(randomName.toUpperCase());
-
-        if (Files.exists(lowerCase) || Files.exists(upperCase)) {
-            throw new IllegalArgumentException(
-                    String.format("One Filename already exists in target.(lowerCase=%s, upperCase=%s)",
-                            lowerCase, upperCase));
-        }
-
-        return isCaseSensitive(lowerCase, upperCase);
+        return !lc.equals(uc);
     }
-
-    private boolean isCaseSensitive(Path lowerCase, Path upperCase) throws IOException {
-        try {
-            Files.createFile(lowerCase);
-            return !Files.exists(upperCase); //when uc file has not been created but is here reported as existing file then the filesystem is case-insensitive
-        } finally {
-            Files.deleteIfExists(lowerCase);
-        }
-    }
-
-    private Path getDir(Path path) {
-        if (Files.isDirectory(path)) {
-            return path;
-        } else {
-            return path.getParent();
-        }
-    }
-
 }
