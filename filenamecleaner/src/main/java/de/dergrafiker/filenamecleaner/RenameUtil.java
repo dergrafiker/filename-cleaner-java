@@ -25,10 +25,19 @@ public class RenameUtil {
                     String.format("Paths must have the same parent (source=%s, target=%s)", source, target));
         }
 
-        if (Files.isSameFile(source, target)) {
-            throw new IllegalArgumentException(
-                    String.format("Paths must not point to the same file (source=%s, target=%s)", source, target));
+        if (caseSensivityChecker.isCaseSensitive(target)) {
+            Files.move(source, target); // move directly
+        } else {
+            Path temp;
+
+            if (Files.isRegularFile(target)) {
+                temp = target.getParent().resolve(target.getFileName().toString() + "-temp");
+            } else {
+                temp = target;
+            }
+
+            Files.move(source, temp);
+            Files.move(temp, target);
         }
-        Files.move(source, target);
     }
 }

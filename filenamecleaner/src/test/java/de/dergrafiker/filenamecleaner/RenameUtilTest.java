@@ -35,23 +35,25 @@ class RenameUtilTest extends EasyMockSupport {
     }
 
     @Test
-    void name() throws IOException {
+    void whenRenameSucceedsThenFileHasTargetFilename() throws IOException {
 
         Path tempDirectory = Files.createTempDirectory("foo");
         cleanupAfterRun.add(tempDirectory);
 
         String sourceName = "foobar";
-        Path source = tempDirectory.resolve(sourceName.toLowerCase());
-        Files.createFile(source);
+        Path lowerCaseFile = tempDirectory.resolve(sourceName.toLowerCase());
+        Path upperCaseFile = tempDirectory.resolve(sourceName.toUpperCase());
 
-        String targetName = sourceName.toUpperCase();
-        Path target = tempDirectory.resolve(targetName);
+        Files.createFile(lowerCaseFile);
+        renameUtil.rename(lowerCaseFile, upperCaseFile);
 
-        renameUtil.rename(source, target);
-
-        List<Path> results = Files.walk(tempDirectory).collect(Collectors.toList());
+        List<Path> results = Files.walk(tempDirectory).filter(path -> Files.isRegularFile(path))
+                .collect(Collectors.toList());
         assertThat(results).hasSize(1);
-        assertThat(results.get(0).toFile().getName()).isEqualTo(targetName);
+
+        String foundFilename = results.get(0).getFileName().toString();
+        assertThat(foundFilename).isEqualTo(upperCaseFile.getFileName().toString());
+        assertThat(foundFilename).isNotEqualTo(lowerCaseFile.getFileName().toString());
     }
 
     @AfterAll
