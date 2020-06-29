@@ -35,11 +35,7 @@ public class RenameUtil {
         }
     }
 
-    private Path determineTempPath(Path source) {
-        if (Files.isDirectory(source)) {
-            return source;
-        } else {
-            return source.getParent().resolve(source.getFileName().toString() + "-temp");
-        }
+    Path determineTempPath(Path source) {
+        return source.getParent().resolve(source.getFileName().toString() + "-temp");
     }
 }
