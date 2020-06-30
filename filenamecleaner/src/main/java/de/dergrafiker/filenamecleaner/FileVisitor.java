@@ -5,9 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.util.Set;
@@ -34,24 +34,26 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
             throw exc;
         }
 
-        final File file = dir.toFile();
-        String oldName = file.getName();
-        if (filenameChecker.isInvalid(oldName, file.isDirectory())) {
-            String cleaned = filenameCleaner.clean(oldName, file.isDirectory());
+        String oldName = dir.getFileName().toString();
+        boolean isDirectory = Files.isDirectory(dir);
+
+        if (filenameChecker.isInvalid(oldName, isDirectory)) {
+            String cleaned = filenameCleaner.clean(oldName, isDirectory);
 
             Set<Character> removedChars = removedCharsUtil.getRemovedChars(oldName, cleaned);
 
             if (LOGGER.isInfoEnabled() && !removedChars.isEmpty()) {
                 LOGGER.info("REMOVEDCHARS {} has removed >> {} << {}",
-                            oldName,
-                            StringUtils.join(removedChars),
-                            cleaned);
+                        oldName,
+                        StringUtils.join(removedChars),
+                        cleaned);
             }
 
             LOGGER.info("RENAME '{}' => '{}' [{}]",
-                        oldName,
-                        cleaned,
-                        file.getParentFile().getAbsolutePath());
+                    oldName,
+                    cleaned,
+                    dir.getParent().toAbsolutePath()
+            );
         }
         LOGGER.trace("WALKED dir {}", dir);
         return CONTINUE;
