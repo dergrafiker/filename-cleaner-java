@@ -43,11 +43,6 @@ public class FilenameCleaner {
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
         output = StringUtils.stripAccents(output);
 
-        String normalized = Normalizer.normalize(output, Normalizer.Form.NFD);
-        if (!normalized.equalsIgnoreCase(output)) {
-            LOGGER.error("NORMALIZATION LOOKS FISHY {} -> {}", output, normalized);
-        }
-
         output = StringUtils.replace(output, "&", " Et ");
 
         output = replaceUppercaseWords(output);

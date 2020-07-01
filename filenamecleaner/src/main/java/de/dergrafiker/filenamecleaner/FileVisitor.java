@@ -40,6 +40,15 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         if (filenameChecker.isInvalid(oldName, isDirectory)) {
             String cleaned = filenameCleaner.clean(oldName, isDirectory);
 
+            if (filenameChecker.isInvalid(cleaned, isDirectory)) {
+                throw new IllegalArgumentException(
+                        String.format("Name is still invalid after clean '%s' => '%s' [%s]",
+                                      oldName,
+                                      cleaned,
+                                      dir.getParent().toAbsolutePath())
+                );
+            }
+
             reportRemovedChars(oldName, cleaned);
 
             LOGGER.info("RENAME '{}' => '{}' [{}]",
