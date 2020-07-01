@@ -9,10 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -66,15 +64,21 @@ class RenameUtilTest extends EasyMockSupport {
     }
 
     @Test
-    void whenSourceIsNullThenExceptionIsThrown() {
-        assertThatThrownBy(() -> renameUtil.rename(null, getFirstFSRoot()))
+    void whenSourceIsNullThenExceptionIsThrown() throws IOException {
+        Path tempDirectory = Files.createTempDirectory("foo");
+        cleanupAfterRun.add(tempDirectory);
+
+        assertThatThrownBy(() -> renameUtil.rename(null, tempDirectory))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Both paths must not be null");
     }
 
     @Test
-    void whenTargetIsNullThenExceptionIsThrown() {
-        assertThatThrownBy(() -> renameUtil.rename(getFirstFSRoot(), null))
+    void whenTargetIsNullThenExceptionIsThrown() throws IOException {
+        Path tempDirectory = Files.createTempDirectory("foo");
+        cleanupAfterRun.add(tempDirectory);
+
+        assertThatThrownBy(() -> renameUtil.rename(tempDirectory, null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Both paths must not be null");
     }
@@ -98,10 +102,6 @@ class RenameUtilTest extends EasyMockSupport {
                 .hasMessageContaining("Paths must have the same parent");
     }
 
-    private Path getFirstFSRoot() {
-        return FileSystems.getDefault().getRootDirectories().iterator().next();
-    }
-
     @AfterAll
     static void afterAll() {
         cleanupAfterRun.forEach(path -> {
@@ -112,11 +112,11 @@ class RenameUtilTest extends EasyMockSupport {
                             try {
                                 Files.delete(child);
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                //we really dont care
                             }
                         });
             } catch (IOException e) {
-                e.printStackTrace();
+                //we really dont care
             }
         });
 
