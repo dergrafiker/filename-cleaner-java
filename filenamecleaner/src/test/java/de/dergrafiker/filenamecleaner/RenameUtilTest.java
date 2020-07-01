@@ -54,11 +54,44 @@ class RenameUtilTest extends EasyMockSupport {
         renameUtil.rename(lowerCaseFile, upperCaseFile);
         verifyAll();
 
-        List<Path> results = Files.walk(tempDirectory).filter(path -> Files.isRegularFile(path))
+        List<Path> results = Files.walk(tempDirectory)
+                .filter(Files::isRegularFile)
                 .collect(Collectors.toList());
         assertThat(results).hasSize(1);
 
         String foundFilename = results.get(0).getFileName().toString();
+        assertThat(foundFilename).isEqualTo(upperCaseFile.getFileName().toString());
+        assertThat(foundFilename).isNotEqualTo(lowerCaseFile.getFileName().toString());
+    }
+
+    @Test
+    void whenRenameSucceedsThenDirectoryHasTargetFilename() throws IOException {
+
+        Path tempDirectory = Files.createTempDirectory("foo");
+        cleanupAfterRun.add(tempDirectory);
+
+        String sourceName = "foobar";
+        Path lowerCaseFile = tempDirectory.resolve(sourceName.toLowerCase());
+        Path upperCaseFile = tempDirectory.resolve(sourceName.toUpperCase());
+
+        Files.createDirectory(lowerCaseFile);
+
+        expect(caseSensitivityChecker.isCaseSensitive(upperCaseFile)).andReturn(false);
+
+        replayAll();
+        renameUtil.rename(lowerCaseFile, upperCaseFile);
+        verifyAll();
+
+        List<Path> subfolder = Files.walk(tempDirectory, 1)
+                .filter(Files::isDirectory)
+                .collect(Collectors.toList());
+
+        Path removed = subfolder.remove(0); //this should be the temp folder
+
+        assertThat(removed).isEqualTo(tempDirectory);
+        assertThat(subfolder).hasSize(1);
+
+        String foundFilename = subfolder.get(0).getFileName().toString();
         assertThat(foundFilename).isEqualTo(upperCaseFile.getFileName().toString());
         assertThat(foundFilename).isNotEqualTo(lowerCaseFile.getFileName().toString());
     }
@@ -98,6 +131,25 @@ class RenameUtilTest extends EasyMockSupport {
         cleanupAfterRun.add(foobar2);
 
         assertThatThrownBy(() -> renameUtil.rename(foobar1, foobar2))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Paths must have the same parent");
+    }
+
+    @Test
+    void whenDirectoriesHaveNotTheSameParentThenExceptionIsThrown() throws IOException {
+        Path dir1 = Files.createTempDirectory("dir1");
+        cleanupAfterRun.add(dir1);
+
+        Path sub1 = Files.createDirectory(dir1.resolve("foobar"));
+        cleanupAfterRun.add(sub1);
+
+        Path dir2 = Files.createTempDirectory("dir2");
+        cleanupAfterRun.add(dir2);
+
+        Path sub2 = Files.createDirectory(dir2.resolve("foobar"));
+        cleanupAfterRun.add(sub2);
+
+        assertThatThrownBy(() -> renameUtil.rename(sub1, sub2))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Paths must have the same parent");
     }
