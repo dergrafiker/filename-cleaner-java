@@ -9,8 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.easymock.EasyMock.expect;
 
 @ExtendWith(EasyMockExtension.class)
@@ -60,6 +63,43 @@ class RenameUtilTest extends EasyMockSupport {
         String foundFilename = results.get(0).getFileName().toString();
         assertThat(foundFilename).isEqualTo(upperCaseFile.getFileName().toString());
         assertThat(foundFilename).isNotEqualTo(lowerCaseFile.getFileName().toString());
+    }
+
+    @Test
+    void whenSourceIsNullThenExceptionIsThrown() {
+        assertThatThrownBy(() -> renameUtil.rename(null, getFirstFSRoot()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Both paths must not be null");
+    }
+
+    @Test
+    void whenTargetIsNullThenExceptionIsThrown() {
+        assertThatThrownBy(() -> renameUtil.rename(getFirstFSRoot(), null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Both paths must not be null");
+    }
+
+    @Test
+    void whenFilesHaveNotTheSameParentThenExceptionIsThrown() throws IOException {
+        Path dir1 = Files.createTempDirectory("dir1");
+        cleanupAfterRun.add(dir1);
+
+        Path foobar1 = Files.createFile(dir1.resolve("foobar"));
+        cleanupAfterRun.add(foobar1);
+
+        Path dir2 = Files.createTempDirectory("dir2");
+        cleanupAfterRun.add(dir2);
+
+        Path foobar2 = Files.createFile(dir2.resolve("foobar"));
+        cleanupAfterRun.add(foobar2);
+
+        assertThatThrownBy(() -> renameUtil.rename(foobar1, foobar2))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Paths must have the same parent");
+    }
+
+    private Path getFirstFSRoot() {
+        return FileSystems.getDefault().getRootDirectories().iterator().next();
     }
 
     @AfterAll
