@@ -10,6 +10,7 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Set;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
@@ -34,8 +35,20 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
             throw exc;
         }
 
-        String oldName = dir.getFileName().toString();
-        boolean isDirectory = Files.isDirectory(dir);
+        fixName(dir);
+        LOGGER.trace("WALKED dir {}", dir);
+        return CONTINUE;
+    }
+
+    @Override
+    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        fixName(file);
+        return CONTINUE;
+    }
+
+    private void fixName(Path path) {
+        String oldName = path.getFileName().toString();
+        boolean isDirectory = Files.isDirectory(path);
 
         if (filenameChecker.isInvalid(oldName, isDirectory)) {
             String cleaned = filenameCleaner.clean(oldName, isDirectory);
@@ -45,7 +58,7 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
                         String.format("Name is still invalid after clean '%s' => '%s' [%s]",
                                       oldName,
                                       cleaned,
-                                      dir.getParent().toAbsolutePath())
+                                      path.getParent().toAbsolutePath())
                 );
             }
 
@@ -54,11 +67,9 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
             LOGGER.info("RENAME '{}' => '{}' [{}]",
                         oldName,
                         cleaned,
-                        dir.getParent().toAbsolutePath()
+                        path.getParent().toAbsolutePath()
             );
         }
-        LOGGER.trace("WALKED dir {}", dir);
-        return CONTINUE;
     }
 
     private void reportRemovedChars(String oldName, String cleaned) {
