@@ -53,7 +53,7 @@ public class FilenameCleaner {
         output = replaceUppercaseWords(output);
         output = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, output);
 
-        output = matcherUtil.getMatcher(RegexConstants.INVALID_CHARS, output).replaceAll(" ");
+        output = matcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, output).replaceAll(" ");
         output = output.trim();
 
         output = matcherUtil.getMatcher("\\s+", output).replaceAll("_");
@@ -67,7 +67,7 @@ public class FilenameCleaner {
     String replaceUppercaseWords(final String output) {
         String cleaned = output;
 
-        final Matcher matcher = matcherUtil.getMatcher(RegexConstants.MANY_UPPERCASE, output);
+        final Matcher matcher = matcherUtil.getMatcher(MatcherUtil.MANY_UPPERCASE_PATTERN, output);
 
         while (matcher.find()) {
             String ucWord = matcher.group();

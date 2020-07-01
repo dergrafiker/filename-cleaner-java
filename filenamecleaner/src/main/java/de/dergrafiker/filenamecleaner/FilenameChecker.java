@@ -25,7 +25,7 @@ public class FilenameChecker {
     }
 
     boolean hasInvalidChars(final String input) {
-        return matcherUtil.getMatcher(RegexConstants.INVALID_CHARS, input).find();
+        return matcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, input).find();
     }
 
     boolean wrongFilename(boolean isDirectory, String input) {

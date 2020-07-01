@@ -18,10 +18,10 @@ public class CaseSensitivityChecker {
             throw new IllegalArgumentException(String.format("Path %s must have a root", path));
         }
 
-        return rootToCaseSensitivityMap.computeIfAbsent(root, this::icCi);
+        return rootToCaseSensitivityMap.computeIfAbsent(root, this::lowerCaseAndUpperCaseAreNotEqual);
     }
 
-    private boolean icCi(Path root) {
+    private boolean lowerCaseAndUpperCaseAreNotEqual(Path root) {
         String originalFilename = "test";
         Path lc = root.resolve(originalFilename.toLowerCase());
         Path uc = root.resolve(originalFilename.toUpperCase());

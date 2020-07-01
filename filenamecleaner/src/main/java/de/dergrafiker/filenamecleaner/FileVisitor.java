@@ -40,24 +40,27 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         if (filenameChecker.isInvalid(oldName, isDirectory)) {
             String cleaned = filenameCleaner.clean(oldName, isDirectory);
 
-            Set<Character> removedChars = removedCharsUtil.getRemovedChars(oldName, cleaned);
-
-            if (LOGGER.isInfoEnabled() && !removedChars.isEmpty()) {
-                LOGGER.info("REMOVED_CHARS {} has removed >> {} << {}",
-                        oldName,
-                        StringUtils.join(removedChars),
-                        cleaned);
-            }
+            reportRemovedChars(oldName, cleaned);
 
             LOGGER.info("RENAME '{}' => '{}' [{}]",
-                    oldName,
-                    cleaned,
-                    dir.getParent().toAbsolutePath()
+                        oldName,
+                        cleaned,
+                        dir.getParent().toAbsolutePath()
             );
         }
         LOGGER.trace("WALKED dir {}", dir);
         return CONTINUE;
     }
 
-
+    private void reportRemovedChars(String oldName, String cleaned) {
+        if (LOGGER.isInfoEnabled()) {
+            Set<Character> removedChars = removedCharsUtil.getRemovedChars(oldName, cleaned);
+            if (!removedChars.isEmpty()) {
+                LOGGER.info("REMOVED_CHARS {} has removed >> {} << {}",
+                            oldName,
+                            StringUtils.join(removedChars),
+                            cleaned);
+            }
+        }
+    }
 }
