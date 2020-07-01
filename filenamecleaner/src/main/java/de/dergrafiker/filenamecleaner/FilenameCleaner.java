@@ -64,6 +64,7 @@ public class FilenameCleaner {
         output = matcherUtil.getMatcher("_+", output).replaceAll("_");
 
         output = StringUtils.replaceEach(output, SEARCH_DASHES, REPLACE_DASHES);
+        output = StringUtils.replace(output, "_.", ".");
 
         if (output.startsWith(".")) {
             output = StringUtils.removeStart(output, ".");
