@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 /*
-    http://www.boost.org/doc/libs/1_65_1/libs/filesystem/doc/portability_guide.htm#recommendations
+    https://www.boost.org/doc/libs/1_73_0/libs/filesystem/doc/portability_guide.htm#recommendations
 
     Limit file and directory names to the characters A-Z, a-z, 0-9, period, hyphen, and underscore.
     Limit the length of the string returned by path::string() to 255 characters.
