@@ -1,5 +1,7 @@
 package de.dergrafiker.filenamecleaner;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,8 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
     private final RemovedCharsUtil removedCharsUtil;
     private final FilenameChecker filenameChecker;
     private final FilenameCleaner filenameCleaner;
+
+    static final Multimap<Character, Path> AFFECTED_PATHS = HashMultimap.create();
 
     public FileVisitor(RemovedCharsUtil removedCharsUtil, FilenameChecker filenameChecker,
                        FilenameCleaner filenameCleaner) {
@@ -62,7 +66,7 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
                 );
             }
 
-            reportRemovedChars(oldName, cleaned);
+            reportRemovedChars(oldName, cleaned, path);
 
             LOGGER.info("RENAME '{}' => '{}' [{}]",
                         oldName,
@@ -72,9 +76,11 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         }
     }
 
-    private void reportRemovedChars(String oldName, String cleaned) {
+    private void reportRemovedChars(String oldName, String cleaned, Path path) {
         if (LOGGER.isInfoEnabled()) {
             Set<Character> removedChars = removedCharsUtil.getRemovedChars(oldName, cleaned);
+            removedChars.forEach(character -> AFFECTED_PATHS.put(character, path));
+
             if (!removedChars.isEmpty()) {
                 LOGGER.info("REMOVED_CHARS {} has removed >> {} << {}",
                             oldName,

@@ -45,6 +45,15 @@ public class Main implements CommandLineRunner {
             }
             final Path rootPath = Paths.get(args[0]);
             Files.walkFileTree(rootPath, printFiles);
+
+/*            for (Map.Entry<Character, Collection<Path>> entry : FileVisitor.AFFECTED_PATHS.asMap().entrySet()) {
+
+                new StringJoiner()
+
+
+            }*/
+
+
         } catch (IOException e) {
             LOG.error("", e);
         }

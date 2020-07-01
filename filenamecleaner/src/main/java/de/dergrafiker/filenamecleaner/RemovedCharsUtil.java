@@ -2,7 +2,6 @@ package de.dergrafiker.filenamecleaner;
 
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,7 +13,8 @@ public class RemovedCharsUtil {
 
     private static Set<Character> fill() {
         Set<Character> ignored = new HashSet<>();
-        Collections.addAll(ignored, '[', ']', '(', ')', ',', ';', ' ', '.', '&', '+', '#', '$', '!', '\'');
+//        Collections.addAll(ignored, '[', ']', '{', '}', '(', ')', ',', ';', ' ', '.', '&', '+', '#', '$', '!', '\'',
+//                           '´', 'ä', 'ü', 'ö', 'ß', '@', '_', '∞', '`', '=' ,'-', '\u2010', '’');
         return ignored;
     }
 
