@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.dergrafiker</groupId>
-  <artifactId>filenamecleaner</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.3.1.RELEASE</version>
   </parent>
+  <groupId>de.dergrafiker</groupId>
+  <artifactId>filenamecleaner</artifactId>
+  <version>1.0-SNAPSHOT</version>
   <properties>
+    <junit.jupiter.version>5.6.2</junit.jupiter.version>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss:SSS</maven.build.timestamp.format>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit.jupiter.version>5.6.2</junit.jupiter.version>
   </properties>
   <dependencies>
     <dependency>
@@ -26,6 +26,11 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>29.0-jre</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.7</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -47,9 +52,9 @@
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>${junit.jupiter.version}</version>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.11.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -59,15 +64,15 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <!-- this is needed or IntelliJ gives junit.jar or junit-platform-launcher not found errors -->
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>3.11.1</version>
+      <!-- this is needed or IntelliJ gives junit.jar or junit-platform-launcher not found errors -->
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -94,7 +99,7 @@
               <goal>analyze-only</goal>
             </goals>
             <configuration>
-              <failOnWarning>true</failOnWarning>
+              <!--              <failOnWarning>true</failOnWarning>-->
               <ignoredUnusedDeclaredDependencies>ch.qos.logback:logback-classic:*</ignoredUnusedDeclaredDependencies>
             </configuration>
           </execution>

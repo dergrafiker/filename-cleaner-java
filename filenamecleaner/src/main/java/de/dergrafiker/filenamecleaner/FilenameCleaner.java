@@ -1,13 +1,13 @@
 package de.dergrafiker.filenamecleaner;
 
 import com.google.common.base.CaseFormat;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.text.Normalizer;
 import java.util.regex.Matcher;
 
 @Component
@@ -38,6 +38,15 @@ public class FilenameCleaner {
 
         if (isDirectory) {
             output = StringUtils.replaceChars(output, '.', ' ');
+        } else if (StringUtils.countMatches(output, '.') > 1) {
+            String extension = FilenameUtils.getExtension(output);
+
+            String nameWithoutExtension = FilenameUtils.removeExtension(output);
+            nameWithoutExtension = StringUtils.replaceChars(nameWithoutExtension, '.', ' ');
+            String newOutput = nameWithoutExtension + '.' + extension;
+
+            LOGGER.info("Found too many dots in file. Renamed {} to {}", output, newOutput);
+            output = newOutput;
         }
 
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
@@ -55,6 +64,18 @@ public class FilenameCleaner {
         output = matcherUtil.getMatcher("_+", output).replaceAll("_");
 
         output = StringUtils.replaceEach(output, SEARCH_DASHES, REPLACE_DASHES);
+
+        if (output.startsWith(".")) {
+            output = StringUtils.removeStart(output, ".");
+        }
+
+        if (output.startsWith("-")) {
+            output = StringUtils.removeStart(output, "-");
+        }
+
+        if (output.endsWith(".")) {
+            output = StringUtils.removeEnd(output, ".");
+        }
 
         return output;
     }

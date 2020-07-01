@@ -29,11 +29,7 @@ public class FilenameChecker {
     }
 
     boolean wrongFilename(boolean isDirectory, String input) {
-        return !isDirectory && (hasMoreThanOneDot(input) || extensionIsTooLong(input));
-    }
-
-    boolean extensionIsTooLong(String input) {
-        return StringUtils.substringAfter(input, ".").length() > 3;
+        return !isDirectory && hasMoreThanOneDot(input);
     }
 
     boolean hasMoreThanOneDot(String input) {
