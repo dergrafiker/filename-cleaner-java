@@ -28,7 +28,7 @@ class RenameUtilTest extends EasyMockSupport {
 
     RenameUtil renameUtil;
 
-    static Set<Path> cleanupAfterRun = new HashSet<>();
+    static final Set<Path> cleanupAfterRun = new HashSet<>();
 
     @BeforeEach
     void setUp() {
