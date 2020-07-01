@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 
 @Configuration
 @Import({
-        CaseSensivityChecker.class,
+        CaseSensitivityChecker.class,
         FilenameChecker.class,
         FilenameCleaner.class,
         FileVisitor.class,

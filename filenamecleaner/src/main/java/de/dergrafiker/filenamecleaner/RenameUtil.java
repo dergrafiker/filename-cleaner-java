@@ -8,10 +8,10 @@ import java.nio.file.Path;
 
 @Component
 public class RenameUtil {
-    private final CaseSensivityChecker caseSensivityChecker;
+    private final CaseSensitivityChecker caseSensitivityChecker;
 
-    public RenameUtil(CaseSensivityChecker caseSensivityChecker) {
-        this.caseSensivityChecker = caseSensivityChecker;
+    public RenameUtil(CaseSensitivityChecker caseSensitivityChecker) {
+        this.caseSensitivityChecker = caseSensitivityChecker;
     }
 
     public void rename(Path source, Path target) throws IOException {
@@ -25,7 +25,7 @@ public class RenameUtil {
                     String.format("Paths must have the same parent (source=%s, target=%s)", source, target));
         }
 
-        if (caseSensivityChecker.isCaseSensitive(target)) {
+        if (caseSensitivityChecker.isCaseSensitive(target)) {
             Files.move(source, target); // move directly
         } else {
             Path temp = determineTempPath(source);

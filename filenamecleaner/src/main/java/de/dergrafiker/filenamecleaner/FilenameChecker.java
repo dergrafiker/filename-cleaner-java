@@ -19,13 +19,13 @@ public class FilenameChecker {
 
     public boolean isInvalid(final String input, final boolean isDirectory) {
         return wrongStartOrEnd(input)
-                || wrongDirectoryname(isDirectory, input)
+                || wrongDirectoryName(isDirectory, input)
                 || wrongFilename(isDirectory, input)
                 || hasInvalidChars(input);
     }
 
     boolean hasInvalidChars(final String input) {
-        return matcherUtil.getMatcher(RegexConstants.INVALIDCHARS, input).find();
+        return matcherUtil.getMatcher(RegexConstants.INVALID_CHARS, input).find();
     }
 
     boolean wrongFilename(boolean isDirectory, String input) {
@@ -40,7 +40,7 @@ public class FilenameChecker {
         return StringUtils.countMatches(input, '.') > 1;
     }
 
-    boolean wrongDirectoryname(final boolean isDirectory, final String input) {
+    boolean wrongDirectoryName(final boolean isDirectory, final String input) {
         return isDirectory && input.contains(".");
     }
 

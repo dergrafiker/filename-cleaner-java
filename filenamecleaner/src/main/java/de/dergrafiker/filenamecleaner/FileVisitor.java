@@ -43,7 +43,7 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
             Set<Character> removedChars = removedCharsUtil.getRemovedChars(oldName, cleaned);
 
             if (LOGGER.isInfoEnabled() && !removedChars.isEmpty()) {
-                LOGGER.info("REMOVEDCHARS {} has removed >> {} << {}",
+                LOGGER.info("REMOVED_CHARS {} has removed >> {} << {}",
                         oldName,
                         StringUtils.join(removedChars),
                         cleaned);

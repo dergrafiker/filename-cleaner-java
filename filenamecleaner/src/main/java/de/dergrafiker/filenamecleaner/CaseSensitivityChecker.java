@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class CaseSensivityChecker {
+public class CaseSensitivityChecker {
 
-    private final Map<Path, Boolean> rootToCaseSensivityMap = new HashMap<>();
+    private final Map<Path, Boolean> rootToCaseSensitivityMap = new HashMap<>();
 
     public boolean isCaseSensitive(Path path) {
         Path root = path.getRoot();
@@ -18,7 +18,7 @@ public class CaseSensivityChecker {
             throw new IllegalArgumentException(String.format("Path %s must have a root", path));
         }
 
-        return rootToCaseSensivityMap.computeIfAbsent(root, this::icCi);
+        return rootToCaseSensitivityMap.computeIfAbsent(root, this::icCi);
     }
 
     private boolean icCi(Path root) {

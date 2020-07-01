@@ -10,14 +10,14 @@ import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
-class CaseSensivityCheckerTest {
+class CaseSensitivityCheckerTest {
 
-    private final CaseSensivityChecker caseSensivityChecker = new CaseSensivityChecker();
+    private final CaseSensitivityChecker caseSensitivityChecker = new CaseSensitivityChecker();
 
     @Test
     void name1() throws IOException {
         assumeFalse(SystemUtils.IS_OS_WINDOWS);
         Path tempFile = Files.createTempFile("foo", "bar");
-        assertThat(caseSensivityChecker.isCaseSensitive(tempFile)).isTrue();
+        assertThat(caseSensitivityChecker.isCaseSensitive(tempFile)).isTrue();
     }
 }

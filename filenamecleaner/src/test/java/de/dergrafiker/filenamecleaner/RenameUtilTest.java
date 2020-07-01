@@ -24,7 +24,7 @@ import static org.easymock.EasyMock.expect;
 class RenameUtilTest extends EasyMockSupport {
 
     @Mock
-    CaseSensivityChecker caseSensivityChecker;
+    CaseSensitivityChecker caseSensitivityChecker;
 
     RenameUtil renameUtil;
 
@@ -32,7 +32,7 @@ class RenameUtilTest extends EasyMockSupport {
 
     @BeforeEach
     void setUp() {
-        renameUtil = new RenameUtil(caseSensivityChecker);
+        renameUtil = new RenameUtil(caseSensitivityChecker);
     }
 
     @Test
@@ -47,7 +47,7 @@ class RenameUtilTest extends EasyMockSupport {
 
         Files.createFile(lowerCaseFile);
 
-        expect(caseSensivityChecker.isCaseSensitive(upperCaseFile)).andReturn(false);
+        expect(caseSensitivityChecker.isCaseSensitive(upperCaseFile)).andReturn(false);
 
         replayAll();
         renameUtil.rename(lowerCaseFile, upperCaseFile);
