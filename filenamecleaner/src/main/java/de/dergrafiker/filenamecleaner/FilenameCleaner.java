@@ -37,12 +37,15 @@ public class FilenameCleaner {
         String output = name.trim();
 
         if (isDirectory) {
-            output = StringUtils.replaceChars(output, '.', ' ');
+            output = StringUtils.remove(output, '.');
+
+//            output = StringUtils.replaceChars(output, '.', '');
         } else if (StringUtils.countMatches(output, '.') > 1) {
             String extension = FilenameUtils.getExtension(output);
 
             String nameWithoutExtension = FilenameUtils.removeExtension(output);
-            nameWithoutExtension = StringUtils.replaceChars(nameWithoutExtension, '.', ' ');
+//            nameWithoutExtension = StringUtils.replaceChars(nameWithoutExtension, '.', ' ');
+            nameWithoutExtension = StringUtils.remove(nameWithoutExtension, '.');
             String newOutput = nameWithoutExtension + '.' + extension;
 
             LOGGER.info("Found too many dots in file. Renamed {} to {}", output, newOutput);
