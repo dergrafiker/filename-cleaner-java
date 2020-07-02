@@ -24,7 +24,7 @@ public class FilenameCleaner {
             "Oe", "oe",
             "Ue", "ue",
             "ss"};
-    private static final String[] SEARCH_DASHES = {"_-_", "-_", "_-"};
+    private static final String[] SEARCH_DASHES = {"_-_", "-_", "_-"}; //can be replaced by regex [_-]+
     private static final String[] REPLACE_DASHES = {"-", "-", "-"};
 
     private final MatcherUtil matcherUtil;
