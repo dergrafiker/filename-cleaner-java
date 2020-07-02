@@ -71,11 +71,9 @@ public class FilenameCleaner {
     }
 
     private String removeDots(boolean isDirectory, String toClean) {
-        int dotCount = StringUtils.countMatches(toClean, '.');
-
-        if (isDirectory && dotCount > 0) {
+        if (isDirectory && StringUtils.contains(toClean, '.')) {
             return StringUtils.remove(toClean, '.');
-        } else if (dotCount > 1) {
+        } else if (StringUtils.countMatches(toClean, '.') > 1) {
             String extension = FilenameUtils.getExtension(toClean);
 
             String nameWithoutExtension = FilenameUtils.removeExtension(toClean);
