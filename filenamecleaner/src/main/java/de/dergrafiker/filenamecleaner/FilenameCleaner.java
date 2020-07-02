@@ -36,21 +36,7 @@ public class FilenameCleaner {
     String clean(final String name, final boolean isDirectory) {
         String output = name.trim();
 
-        if (isDirectory) {
-            output = StringUtils.remove(output, '.');
-
-//            output = StringUtils.replaceChars(output, '.', '');
-        } else if (StringUtils.countMatches(output, '.') > 1) {
-            String extension = FilenameUtils.getExtension(output);
-
-            String nameWithoutExtension = FilenameUtils.removeExtension(output);
-//            nameWithoutExtension = StringUtils.replaceChars(nameWithoutExtension, '.', ' ');
-            nameWithoutExtension = StringUtils.remove(nameWithoutExtension, '.');
-            String newOutput = nameWithoutExtension + '.' + extension;
-
-            LOGGER.info("Found too many dots in file. Renamed {} to {}", output, newOutput);
-            output = newOutput;
-        }
+        output = removeDots(isDirectory, output);
 
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
         output = StringUtils.stripAccents(output);
@@ -82,6 +68,25 @@ public class FilenameCleaner {
         }
 
         return output;
+    }
+
+    private String removeDots(boolean isDirectory, String toClean) {
+        int dotCount = StringUtils.countMatches(toClean, '.');
+
+        if (isDirectory && dotCount > 0) {
+            return StringUtils.remove(toClean, '.');
+        } else if (dotCount > 1) {
+            String extension = FilenameUtils.getExtension(toClean);
+
+            String nameWithoutExtension = FilenameUtils.removeExtension(toClean);
+            nameWithoutExtension = StringUtils.remove(nameWithoutExtension, '.');
+            String newOutput = nameWithoutExtension + '.' + extension;
+
+            LOGGER.info("Found too many dots in file. Renamed {} to {}", toClean, newOutput);
+            return newOutput;
+        } else {
+            return toClean;
+        }
     }
 
     String replaceUppercaseWords(final String output) {
