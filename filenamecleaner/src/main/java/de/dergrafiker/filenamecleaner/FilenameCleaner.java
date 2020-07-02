@@ -75,10 +75,8 @@ public class FilenameCleaner {
             return StringUtils.remove(toClean, '.');
         } else if (StringUtils.countMatches(toClean, '.') > 1) {
             String extension = FilenameUtils.getExtension(toClean);
-
-            String nameWithoutExtension = FilenameUtils.removeExtension(toClean);
-            nameWithoutExtension = StringUtils.remove(nameWithoutExtension, '.');
-            String newOutput = nameWithoutExtension + '.' + extension;
+            String nameWithoutExtensionAndDots = StringUtils.remove(FilenameUtils.removeExtension(toClean), '.');
+            String newOutput = nameWithoutExtensionAndDots + '.' + extension;
 
             LOGGER.info("Found too many dots in file. Renamed {} to {}", toClean, newOutput);
             return newOutput;
