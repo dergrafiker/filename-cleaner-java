@@ -2,6 +2,7 @@ package de.dergrafiker.filenamecleaner;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,8 +14,7 @@ public class RemovedCharsUtil {
 
     private static Set<Character> fill() {
         Set<Character> ignored = new HashSet<>();
-//        Collections.addAll(ignored, '[', ']', '{', '}', '(', ')', ',', ';', ' ', '.', '&', '+', '#', '$', '!', '\'',
-//                           '´', 'ä', 'ü', 'ö', 'ß', '@', '_', '∞', '`', '=' ,'-', '\u2010', '’');
+        Collections.addAll(ignored, '\u00e4', '\u00fc', '\u00f6','\u00df');
         return ignored;
     }
 
@@ -27,6 +27,7 @@ public class RemovedCharsUtil {
 
     private Set<Character> getUniqueLowerCaseChars(String oldName) {
         Stream<Character> characterStream = oldName.chars()
+                .filter(Character::isLetterOrDigit)
                 .mapToObj(c -> (char) Character.toLowerCase(c));
 
         return characterStream.collect(Collectors.toSet());

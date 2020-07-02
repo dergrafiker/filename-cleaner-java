@@ -24,7 +24,7 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
     private final FilenameChecker filenameChecker;
     private final FilenameCleaner filenameCleaner;
 
-    static final Multimap<Character, Path> AFFECTED_PATHS = HashMultimap.create();
+    static final Multimap<Path, Character> PATH_TO_REMOVED_CHARS = HashMultimap.create();
 
     public FileVisitor(RemovedCharsUtil removedCharsUtil, FilenameChecker filenameChecker,
                        FilenameCleaner filenameCleaner) {
@@ -79,7 +79,7 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
     private void reportRemovedChars(String oldName, String cleaned, Path path) {
         if (LOGGER.isInfoEnabled()) {
             Set<Character> removedChars = removedCharsUtil.getRemovedChars(oldName, cleaned);
-            removedChars.forEach(character -> AFFECTED_PATHS.put(character, path));
+            removedChars.forEach(character -> PATH_TO_REMOVED_CHARS.put(path, character));
 
             if (!removedChars.isEmpty()) {
                 LOGGER.info("REMOVED_CHARS {} has removed >> {} << {}",
