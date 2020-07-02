@@ -27,7 +27,6 @@ public class RemovedCharsUtil {
 
     private Set<Character> getUniqueLowerCaseChars(String oldName) {
         Stream<Character> characterStream = oldName.chars()
-                .filter(Character::isLetterOrDigit)
                 .mapToObj(c -> (char) Character.toLowerCase(c));
 
         return characterStream.collect(Collectors.toSet());

@@ -17,12 +17,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -84,8 +82,12 @@ public class Main implements CommandLineRunner {
                 LOG.info("Path => {} {}", key, String.join("; ", results));
             }*/
 
-            Set<Character> characterSet = new HashSet<>(FileVisitor.PATH_TO_REMOVED_CHARS.values());
-
+            Set<Character> characterSet = new HashSet<>(FileVisitor.PATH_TO_REMOVED_CHARS.values())
+/*
+                    .stream()
+//                    .filter(Character::isLetterOrDigit)
+                    .collect(Collectors.toSet())
+*/;
             List<String> results = new ArrayList<>();
 
             for (Character character : characterSet) {
