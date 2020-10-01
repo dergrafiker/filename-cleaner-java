@@ -23,7 +23,7 @@ class CaseSensitivityCheckerTest {
     }
 
     @Test
-    void whenOnWindowsThenFilenamsAreNotCaseSensitive() throws IOException {
+    void whenOnWindowsThenFilenamesAreNotCaseSensitive() throws IOException {
         assumeTrue(SystemUtils.IS_OS_WINDOWS);
         Path tempFile = Files.createTempFile("foo", "bar");
         assertThat(caseSensitivityChecker.isCaseSensitive(tempFile)).isFalse();

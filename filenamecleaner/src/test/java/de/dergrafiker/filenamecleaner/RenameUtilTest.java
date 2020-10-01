@@ -82,16 +82,16 @@ class RenameUtilTest extends EasyMockSupport {
         renameUtil.rename(lowerCaseFile, upperCaseFile);
         verifyAll();
 
-        List<Path> subfolder = Files.walk(tempDirectory, 1)
+        List<Path> subFolder = Files.walk(tempDirectory, 1)
                 .filter(Files::isDirectory)
                 .collect(Collectors.toList());
 
-        Path removed = subfolder.remove(0); //this should be the temp folder
+        Path removed = subFolder.remove(0); //this should be the temp folder
 
         assertThat(removed).isEqualTo(tempDirectory);
-        assertThat(subfolder).hasSize(1);
+        assertThat(subFolder).hasSize(1);
 
-        String foundFilename = subfolder.get(0).getFileName().toString();
+        String foundFilename = subFolder.get(0).getFileName().toString();
         assertThat(foundFilename).isEqualTo(upperCaseFile.getFileName().toString());
         assertThat(foundFilename).isNotEqualTo(lowerCaseFile.getFileName().toString());
     }
