@@ -20,15 +20,12 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 @Component
 public class FileVisitor extends SimpleFileVisitor<Path> {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileVisitor.class);
-    private final RemovedCharsUtil removedCharsUtil;
     private final FilenameChecker filenameChecker;
     private final FilenameCleaner filenameCleaner;
 
-    static final Multimap<Path, Character> PATH_TO_REMOVED_CHARS = HashMultimap.create();
 
-    public FileVisitor(RemovedCharsUtil removedCharsUtil, FilenameChecker filenameChecker,
+    public FileVisitor(FilenameChecker filenameChecker,
                        FilenameCleaner filenameCleaner) {
-        this.removedCharsUtil = removedCharsUtil;
         this.filenameChecker = filenameChecker;
         this.filenameCleaner = filenameCleaner;
     }
@@ -66,27 +63,11 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
                 );
             }
 
-            reportRemovedChars(oldName, cleaned, path);
-
             LOGGER.info("RENAME '{}' => '{}' [{}]",
                         oldName,
                         cleaned,
                         path.getParent().toAbsolutePath()
             );
-        }
-    }
-
-    private void reportRemovedChars(String oldName, String cleaned, Path path) {
-        if (LOGGER.isInfoEnabled()) {
-            Set<Character> removedChars = removedCharsUtil.getRemovedChars(oldName, cleaned);
-            removedChars.forEach(character -> PATH_TO_REMOVED_CHARS.put(path, character));
-
-            if (!removedChars.isEmpty()) {
-                LOGGER.info("REMOVED_CHARS {} has removed >> {} << {}",
-                            oldName,
-                            StringUtils.join(removedChars),
-                            cleaned);
-            }
         }
     }
 }

@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
         FilenameCleaner.class,
         FileVisitor.class,
         MatcherUtil.class,
-        RemovedCharsUtil.class,
         RenameUtil.class
 })
 public class Main implements CommandLineRunner {
