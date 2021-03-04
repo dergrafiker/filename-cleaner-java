@@ -50,6 +50,14 @@ public class FilenameCleaner {
         output = StringUtils.replaceChars(output, "]", " ");
         output = StringUtils.replaceChars(output, "(", " ");
         output = StringUtils.replaceChars(output, ")", " ");
+        output = StringUtils.replaceChars(output, "+", " ");
+        output = StringUtils.replaceChars(output, "=", " ");
+        output = StringUtils.replaceChars(output, "!", " ");
+
+
+        output = StringUtils.replaceChars(output, "ø", "oe");
+        output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
+        output = StringUtils.stripAccents(output);
 
         output = StringUtils.replaceChars(output, "&", "et");
 
