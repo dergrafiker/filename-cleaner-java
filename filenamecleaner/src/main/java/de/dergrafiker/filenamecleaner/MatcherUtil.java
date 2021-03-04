@@ -17,7 +17,7 @@ public class MatcherUtil {
     static final String INVALID_CHARS_PATTERN = "[^-_.A-Za-z0-9]+";
     static final String MANY_UPPERCASE_PATTERN = "[A-Z]{2,}";
 
-    Matcher getMatcher(final String regex, final String input) {
+    static Matcher getMatcher(final String regex, final String input) {
         return MATCHER_CACHE.computeIfAbsent(regex, COMPILED_REGULAR_EXPRESSIONS).reset(input);
     }
 }

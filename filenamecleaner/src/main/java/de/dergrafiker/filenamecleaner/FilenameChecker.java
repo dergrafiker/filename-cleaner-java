@@ -11,11 +11,6 @@ import org.springframework.stereotype.Component;
     */
 @Component
 public class FilenameChecker {
-    private final MatcherUtil matcherUtil;
-
-    public FilenameChecker(MatcherUtil matcherUtil) {
-        this.matcherUtil = matcherUtil;
-    }
 
     public boolean isInvalid(final String input, final boolean isDirectory) {
         return wrongStartOrEnd(input)
@@ -25,7 +20,7 @@ public class FilenameChecker {
     }
 
     boolean hasInvalidChars(final String input) {
-        return matcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, input).find();
+        return MatcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, input).find();
     }
 
     boolean wrongFilename(boolean isDirectory, String input) {

@@ -1,6 +1,5 @@
 package de.dergrafiker.filenamecleaner;
 
-import com.google.common.base.CaseFormat;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
@@ -27,14 +26,27 @@ public class FilenameCleaner {
     private static final String[] SEARCH_DASHES = {"_-_", "-_", "_-"}; //can be replaced by regex [_-]+
     private static final String[] REPLACE_DASHES = {"-", "-", "-"};
 
-    private final MatcherUtil matcherUtil;
-
-    public FilenameCleaner(MatcherUtil matcherUtil) {
-        this.matcherUtil = matcherUtil;
-    }
-
     String clean(final String name, final boolean isDirectory) {
         String output = name.trim();
+
+        if (isDirectory) {
+            output = StringUtils.replaceChars(output, '.', ' ');
+        } else {
+            String baseName = FilenameUtils.getBaseName(output);
+            baseName = StringUtils.replaceChars(baseName, '.', ' ');
+
+            String extension = FilenameUtils.getExtension(output);
+            output = baseName + '.' + extension;
+        }
+
+        output = MatcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, output).replaceAll(" ");
+
+//        output = StringUtils.replaceChars(output, "\\'", " ");
+//        output = StringUtils.replaceChars(output, ",", " ");
+
+        output = MatcherUtil.getMatcher("\\s+", output).replaceAll("_");
+        output = MatcherUtil.getMatcher("_+", output).replaceAll("_");
+
 
 /*        output = removeDots(isDirectory, output);
 
@@ -88,7 +100,7 @@ public class FilenameCleaner {
     String replaceUppercaseWords(final String output) {
         String cleaned = output;
 
-        final Matcher matcher = matcherUtil.getMatcher(MatcherUtil.MANY_UPPERCASE_PATTERN, output);
+        final Matcher matcher = MatcherUtil.getMatcher(MatcherUtil.MANY_UPPERCASE_PATTERN, output);
 
         while (matcher.find()) {
             String ucWord = matcher.group();

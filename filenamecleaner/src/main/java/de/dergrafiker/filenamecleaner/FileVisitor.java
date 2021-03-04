@@ -1,8 +1,5 @@
 package de.dergrafiker.filenamecleaner;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Set;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
@@ -22,7 +18,6 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileVisitor.class);
     private final FilenameChecker filenameChecker;
     private final FilenameCleaner filenameCleaner;
-
 
     public FileVisitor(FilenameChecker filenameChecker,
                        FilenameCleaner filenameCleaner) {
@@ -57,16 +52,16 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
             if (filenameChecker.isInvalid(cleaned, isDirectory)) {
                 throw new IllegalArgumentException(
                         String.format("Name is still invalid after clean '%s' => '%s' [%s]",
-                                      oldName,
-                                      cleaned,
-                                      path.getParent().toAbsolutePath())
+                                oldName,
+                                cleaned,
+                                path.getParent().toAbsolutePath())
                 );
             }
 
             LOGGER.info("RENAME '{}' => '{}' [{}]",
-                        oldName,
-                        cleaned,
-                        path.getParent().toAbsolutePath()
+                    oldName,
+                    cleaned,
+                    path.getParent().toAbsolutePath()
             );
         }
     }

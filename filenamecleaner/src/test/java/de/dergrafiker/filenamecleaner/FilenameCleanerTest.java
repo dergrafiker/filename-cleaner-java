@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class FilenameCleanerTest {
 
-    final FilenameCleaner cleaner = new FilenameCleaner(new MatcherUtil());
+    final FilenameCleaner cleaner = new FilenameCleaner();
 
     @Test
     void name() {
