@@ -32,17 +32,19 @@ public class FilenameCleaner {
         if (isDirectory) {
             output = StringUtils.replaceChars(output, '.', ' ');
         } else {
-            String baseName = FilenameUtils.getBaseName(output);
-            baseName = StringUtils.replaceChars(baseName, '.', ' ');
+            if (StringUtils.countMatches(output, '.') > 1) {
+                String baseName = FilenameUtils.getBaseName(output);
+                baseName = StringUtils.replaceChars(baseName, '.', ' ');
 
-            String extension = FilenameUtils.getExtension(output);
-            output = baseName + '.' + extension;
+                String extension = FilenameUtils.getExtension(output);
+                output = baseName + '.' + extension;
+            }
         }
 
-        output = MatcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, output).replaceAll(" ");
+//        output = MatcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, output).replaceAll(" ");
 
-//        output = StringUtils.replaceChars(output, "\\'", " ");
-//        output = StringUtils.replaceChars(output, ",", " ");
+        output = StringUtils.replaceChars(output, "\\'", " ");
+        output = StringUtils.replaceChars(output, ",", " ");
 
         output = MatcherUtil.getMatcher("\\s+", output).replaceAll("_");
         output = MatcherUtil.getMatcher("_+", output).replaceAll("_");
