@@ -43,8 +43,15 @@ public class FilenameCleaner {
 
 //        output = MatcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, output).replaceAll(" ");
 
-        output = StringUtils.replaceChars(output, "\\'", " ");
+        output = StringUtils.replaceChars(output, "'", " ");
         output = StringUtils.replaceChars(output, ",", " ");
+        output = StringUtils.replaceChars(output, "`", " ");
+        output = StringUtils.replaceChars(output, "[", " ");
+        output = StringUtils.replaceChars(output, "]", " ");
+        output = StringUtils.replaceChars(output, "(", " ");
+        output = StringUtils.replaceChars(output, ")", " ");
+
+        output = StringUtils.replaceChars(output, "&", "et");
 
         output = MatcherUtil.getMatcher("\\s+", output).replaceAll("_");
         output = MatcherUtil.getMatcher("_+", output).replaceAll("_");
