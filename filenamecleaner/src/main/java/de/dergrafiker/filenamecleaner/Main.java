@@ -55,69 +55,10 @@ public class Main implements CommandLineRunner {
             if (args.length != 1) {
                 throw new IllegalArgumentException("Please provide a root path");
             }
-
-            List<Method> methods = Arrays.stream(ReflectionUtils.getAllDeclaredMethods(Character.class))
-                    .filter(m -> Arrays.asList(boolean.class, Boolean.class).contains(m.getReturnType())
-                            && m.getParameterCount() == 1
-                            && Arrays.asList(char.class, Character.class).contains(m.getParameterTypes()[0]))
-                    .collect(Collectors.toList());
-            System.out.println();
-
             final Path rootPath = Paths.get(args[0]);
             Files.walkFileTree(rootPath, printFiles);
-
-/*            for (Path key : FileVisitor.PATH_TO_REMOVED_CHARS.keySet()) {
-                Collection<Character> characters = FileVisitor.PATH_TO_REMOVED_CHARS.get(key);
-
-                List<String> results = new ArrayList<>();
-
-                for (Character character : characters) {
-                    String matchingResults = methods.stream()
-                            .map(invokeMethodAndReturnNameWhenTrue(character))
-                            .filter(Objects::nonNull)
-                            .collect(Collectors.joining(",", "[", "]"));
-                    results.add(String.format("[%s] => %s", character, matchingResults));
-                }
-
-                LOG.info("Path => {} {}", key, String.join("; ", results));
-            }*/
-
-            Set<Character> characterSet = new HashSet<>(FileVisitor.PATH_TO_REMOVED_CHARS.values())
-/*
-                    .stream()
-//                    .filter(Character::isLetterOrDigit)
-                    .collect(Collectors.toSet())
-*/;
-            List<String> results = new ArrayList<>();
-
-            for (Character character : characterSet) {
-                String matchingResults = methods.stream()
-                        .map(invokeMethodAndReturnNameWhenTrue(character))
-                        .filter(Objects::nonNull)
-                        .collect(Collectors.joining(",", "[", "]"));
-                results.add(String.format("[%s] => %s", character, matchingResults));
-            }
-
-            results.forEach(System.out::println);
-
-            System.out.println();
-
-
         } catch (IOException e) {
             LOG.error("", e);
         }
-    }
-
-    private Function<Method, String> invokeMethodAndReturnNameWhenTrue(Character character) {
-        return m -> {
-            try {
-                if ((boolean) m.invoke(null, character)) {
-                    return m.getName();
-                }
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                ExceptionUtils.rethrow(e);
-            }
-            return null;
-        };
     }
 }
