@@ -36,7 +36,7 @@ public class FilenameCleaner {
     String clean(final String name, final boolean isDirectory) {
         String output = name.trim();
 
-        output = removeDots(isDirectory, output);
+/*        output = removeDots(isDirectory, output);
 
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
         output = StringUtils.stripAccents(output);
@@ -65,7 +65,7 @@ public class FilenameCleaner {
 
         if (output.endsWith(".")) {
             output = StringUtils.removeEnd(output, ".");
-        }
+        }*/
 
         return output;
     }
