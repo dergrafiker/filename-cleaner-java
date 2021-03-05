@@ -90,21 +90,21 @@ public class FilenameCleaner {
         output = StringUtils.replaceChars(output, "£", " ");
         output = StringUtils.replaceChars(output, "∞", " ");
 
-        output = StringUtils.replaceChars(output, "&", "et");
-        output = StringUtils.replaceChars(output, "µ", "u");
-        output = StringUtils.replaceChars(output, "þ", "th");
-        output = StringUtils.replaceChars(output, "ß", "ss");
+        output = StringUtils.replaceIgnoreCase(output, "&", "et");
+        output = StringUtils.replaceIgnoreCase(output, "µ", "u");
+        output = StringUtils.replaceIgnoreCase(output, "þ", "th");
+        output = StringUtils.replaceIgnoreCase(output, "ß", "ss");
 
-        output = StringUtils.replaceChars(output, "­", "-");
-        output = StringUtils.replaceChars(output, "–", "-");
-        output = StringUtils.replaceChars(output, "‐", "-");
+        output = StringUtils.replaceIgnoreCase(output, "­", "-");
+        output = StringUtils.replaceIgnoreCase(output, "–", "-");
+        output = StringUtils.replaceIgnoreCase(output, "‐", "-");
 
-        output = StringUtils.replaceChars(output, "ø", "oe");
-        output = StringUtils.replaceChars(output, "œ", "oe");
-        output = StringUtils.replaceChars(output, "æ", "ae");
-        output = StringUtils.replaceChars(output, "Æ", "ae");
-        output = StringUtils.replaceChars(output, "Ø", "O");
-        output = StringUtils.replaceChars(output, "ӱ", "ue");
+        output = StringUtils.replaceIgnoreCase(output, "ø", "oe");
+        output = StringUtils.replaceIgnoreCase(output, "œ", "oe");
+        output = StringUtils.replaceIgnoreCase(output, "æ", "ae");
+        output = StringUtils.replaceIgnoreCase(output, "Æ", "ae");
+        output = StringUtils.replaceIgnoreCase(output, "Ø", "O");
+        output = StringUtils.replaceIgnoreCase(output, "ӱ", "ue");
 
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
         output = StringUtils.stripAccents(output);
