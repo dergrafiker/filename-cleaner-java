@@ -28,6 +28,9 @@ public class FilenameCleaner {
 
     String clean(final String name, final boolean isDirectory) {
         String output = name.trim();
+        output = StringUtils.removeStart(output,".");
+        output = StringUtils.removeEnd(output,".");
+        output = StringUtils.removeStart(output,"-");
 
         if (isDirectory) {
             output = StringUtils.replaceChars(output, '.', ' ');
@@ -65,7 +68,9 @@ public class FilenameCleaner {
         output = StringUtils.replaceChars(output, "♥", " ");
         output = StringUtils.replaceChars(output, "◕", " ");
         output = StringUtils.replaceChars(output, "°", " ");
-        output = StringUtils.replaceChars(output, "ЖФД", " ");
+        output = StringUtils.replaceChars(output, "Ж", " ");
+        output = StringUtils.replaceChars(output, "Ф", " ");
+        output = StringUtils.replaceChars(output, "Д", " ");
         output = StringUtils.replaceChars(output, "~", " ");
         output = StringUtils.replaceChars(output, "¡", " ");
         output = StringUtils.replaceChars(output, "$", " ");
@@ -73,6 +78,10 @@ public class FilenameCleaner {
         output = StringUtils.replaceChars(output, "^", " ");
         output = StringUtils.replaceChars(output, "@", " ");
         output = StringUtils.replaceChars(output, "´", " ");
+        output = StringUtils.replaceChars(output, "„", " ");
+        output = StringUtils.replaceChars(output, "“", " ");
+        output = StringUtils.replaceChars(output, "£", " ");
+        output = StringUtils.replaceChars(output, "∞", " ");
 
         output = StringUtils.replaceChars(output, "&", "et");
         output = StringUtils.replaceChars(output, "µ", "u");
@@ -81,6 +90,7 @@ public class FilenameCleaner {
         output = StringUtils.replaceChars(output, "­", "-");
         output = StringUtils.replaceChars(output, "–", "-");
         output = StringUtils.replaceChars(output, "ø", "oe");
+        output = StringUtils.replaceChars(output, "œ", "oe");
         output = StringUtils.replaceChars(output, "æ", "ae");
         output = StringUtils.replaceChars(output, "Æ", "ae");
         output = StringUtils.replaceChars(output, "Ø", "O");
