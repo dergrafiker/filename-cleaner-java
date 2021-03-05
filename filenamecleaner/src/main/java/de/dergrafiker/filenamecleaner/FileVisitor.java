@@ -54,33 +54,20 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         String oldName = path.getFileName().toString();
         boolean isDirectory = Files.isDirectory(path);
 
-        if (filenameChecker.isInvalid(oldName, isDirectory)) {
-            String cleaned = filenameCleaner.clean(oldName, isDirectory);
+        String cleaned = filenameCleaner.clean(oldName, isDirectory);
 
-            if (filenameChecker.isInvalid(cleaned, isDirectory)) {
-//                String invalid = MatcherUtil.getMatcher("[-_.A-Za-z0-9]+", cleaned).replaceAll("");
-//
-//                LOGGER.info(oldName);
-//                LOGGER.info(cleaned);
+        System.out.println(path.getParent().toAbsolutePath());
+        System.out.println(oldName);
+        System.out.println(cleaned);
+        System.out.println();
 
-                throw new IllegalArgumentException(
-                        String.format("Name is still invalid after clean '%s' => '%s' [%s]",
-                                oldName,
-                                cleaned,
-                                path.getParent().toAbsolutePath())
-                );
-            }
-
-            System.out.println(path.getParent().toAbsolutePath());
-            System.out.println(oldName);
-            System.out.println(cleaned);
-            System.out.println();
-
-/*            LOGGER.info("RENAME '{}' => '{}' [{}]",
-                    oldName,
-                    cleaned,
-                    path.getParent().toAbsolutePath()
-            );*/
+        if (filenameChecker.isInvalid(cleaned, isDirectory)) {
+            throw new IllegalArgumentException(
+                    String.format("Name is still invalid after clean '%s' => '%s' [%s]",
+                            oldName,
+                            cleaned,
+                            path.getParent().toAbsolutePath())
+            );
         }
     }
 
