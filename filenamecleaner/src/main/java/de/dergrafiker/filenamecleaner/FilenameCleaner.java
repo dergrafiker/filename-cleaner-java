@@ -44,7 +44,7 @@ public class FilenameCleaner {
         } else {
             if (StringUtils.countMatches(output, '.') > 1) {
                 String baseName = FilenameUtils.getBaseName(output);
-                baseName = StringUtils.replaceChars(baseName, '.', ' ');
+                baseName = StringUtils.replaceChars(baseName, '.', ' ').trim();
 
                 String extension = FilenameUtils.getExtension(output);
                 output = baseName + '.' + extension;
