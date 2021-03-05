@@ -3,6 +3,7 @@ package de.dergrafiker.filenamecleaner;
 import com.google.common.base.CaseFormat;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +24,17 @@ public class FilenameCleaner {
             "Ae", "ae",
             "Oe", "oe",
             "Ue", "ue",
-            "ss" , "ss"};
+            "ss", "ss"};
     private static final String[] SEARCH_DASHES = {"_-_", "-_", "_-"}; //can be replaced by regex [_-]+
     private static final String[] REPLACE_DASHES = {"-", "-", "-"};
 
     String clean(final String name, final boolean isDirectory) {
         String output = name.trim();
-        output = StringUtils.removeStart(output,".");
-        output = StringUtils.removeEnd(output,".");
-        output = StringUtils.removeStart(output,"-");
+        output = StringEscapeUtils.unescapeHtml4(output);
+
+        output = StringUtils.removeStart(output, ".");
+        output = StringUtils.removeEnd(output, ".");
+        output = StringUtils.removeStart(output, "-");
 
         output = replaceUppercaseWords(output);
         output = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, output);
