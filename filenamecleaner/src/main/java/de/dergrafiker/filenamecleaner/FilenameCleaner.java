@@ -109,6 +109,8 @@ public class FilenameCleaner {
         output = MatcherUtil.getMatcher("\\s+", output).replaceAll("_");
         output = MatcherUtil.getMatcher("_+", output).replaceAll("_");
 
+        output = StringUtils.replaceEach(output, SEARCH_DASHES, REPLACE_DASHES);
+
 
 /*        output = removeDots(isDirectory, output);
 
