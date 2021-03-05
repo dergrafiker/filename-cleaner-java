@@ -32,7 +32,7 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         }
 
         fixName(dir);
-        LOGGER.trace("WALKED dir {}", dir);
+//        LOGGER.trace("WALKED dir {}", dir);
         return CONTINUE;
     }
 
@@ -50,10 +50,10 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
             String cleaned = filenameCleaner.clean(oldName, isDirectory);
 
             if (filenameChecker.isInvalid(cleaned, isDirectory)) {
-                String invalid = MatcherUtil.getMatcher("[-_.A-Za-z0-9]+", cleaned).replaceAll("");
-
-                LOGGER.info(oldName);
-                LOGGER.info(cleaned);
+//                String invalid = MatcherUtil.getMatcher("[-_.A-Za-z0-9]+", cleaned).replaceAll("");
+//
+//                LOGGER.info(oldName);
+//                LOGGER.info(cleaned);
 
                 throw new IllegalArgumentException(
                         String.format("Name is still invalid after clean '%s' => '%s' [%s]",
@@ -63,11 +63,16 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
                 );
             }
 
-            LOGGER.info("RENAME '{}' => '{}' [{}]",
+            System.out.println(path.getParent().toAbsolutePath());
+            System.out.println(oldName);
+            System.out.println(cleaned);
+            System.out.println();
+
+/*            LOGGER.info("RENAME '{}' => '{}' [{}]",
                     oldName,
                     cleaned,
                     path.getParent().toAbsolutePath()
-            );
+            );*/
         }
     }
 }

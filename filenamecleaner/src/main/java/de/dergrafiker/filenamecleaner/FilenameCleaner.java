@@ -106,6 +106,8 @@ public class FilenameCleaner {
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
         output = StringUtils.stripAccents(output);
 
+        output = output.trim();
+
         output = MatcherUtil.getMatcher("\\s+", output).replaceAll("_");
         output = MatcherUtil.getMatcher("_+", output).replaceAll("_");
 
