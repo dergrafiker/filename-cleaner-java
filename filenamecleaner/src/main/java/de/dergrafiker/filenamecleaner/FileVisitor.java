@@ -19,6 +19,9 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
     private final FilenameChecker filenameChecker;
     private final FilenameCleaner filenameCleaner;
 
+    private int fileCounter = 0;
+    private int dirCounter = 0;
+
     public FileVisitor(FilenameChecker filenameChecker,
                        FilenameCleaner filenameCleaner) {
         this.filenameChecker = filenameChecker;
@@ -32,13 +35,18 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         }
 
         fixName(dir);
+
+        System.out.println(dir);
+
 //        LOGGER.trace("WALKED dir {}", dir);
+        dirCounter++;
         return CONTINUE;
     }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         fixName(file);
+        fileCounter++;
         return CONTINUE;
     }
 
@@ -74,5 +82,13 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
                     path.getParent().toAbsolutePath()
             );*/
         }
+    }
+
+    public int getFileCounter() {
+        return fileCounter;
+    }
+
+    public int getDirCounter() {
+        return dirCounter;
     }
 }

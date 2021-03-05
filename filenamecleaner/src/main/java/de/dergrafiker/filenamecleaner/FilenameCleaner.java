@@ -101,7 +101,7 @@ public class FilenameCleaner {
         output = StringUtils.replaceChars(output, "æ", "ae");
         output = StringUtils.replaceChars(output, "Æ", "ae");
         output = StringUtils.replaceChars(output, "Ø", "O");
-        output = StringUtils.replaceChars(output, "ӱ", "u");
+        output = StringUtils.replaceChars(output, "ӱ", "ue");
 
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
         output = StringUtils.stripAccents(output);
