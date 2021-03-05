@@ -17,12 +17,12 @@ public class FilenameCleaner {
             "\u00c4", "\u00e4",
             "\u00d6", "\u00f6",
             "\u00dc", "\u00fc",
-            "\u00df"};
+            "\u00df", "\u1E9E"};
     private static final String[] REPLACE_UMLAUTS = {
             "Ae", "ae",
             "Oe", "oe",
             "Ue", "ue",
-            "ss"};
+            "ss" , "ss"};
     private static final String[] SEARCH_DASHES = {"_-_", "-_", "_-"}; //can be replaced by regex [_-]+
     private static final String[] REPLACE_DASHES = {"-", "-", "-"};
 
@@ -41,6 +41,8 @@ public class FilenameCleaner {
             }
         }
 
+//        output = StringEscapeUtils.unescapeHtml4(output);
+
 //        output = MatcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, output).replaceAll(" ");
 
         output = StringUtils.replaceChars(output, "'", " ");
@@ -50,16 +52,42 @@ public class FilenameCleaner {
         output = StringUtils.replaceChars(output, "]", " ");
         output = StringUtils.replaceChars(output, "(", " ");
         output = StringUtils.replaceChars(output, ")", " ");
+        output = StringUtils.replaceChars(output, "{", " ");
+        output = StringUtils.replaceChars(output, "}", " ");
         output = StringUtils.replaceChars(output, "+", " ");
         output = StringUtils.replaceChars(output, "=", " ");
         output = StringUtils.replaceChars(output, "!", " ");
-
-
-        output = StringUtils.replaceChars(output, "ø", "oe");
-        output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
-        output = StringUtils.stripAccents(output);
+        output = StringUtils.replaceChars(output, "#", " ");
+        output = StringUtils.replaceChars(output, "’", " ");
+        output = StringUtils.replaceChars(output, ";", " ");
+        output = StringUtils.replaceChars(output, "%", " ");
+        output = StringUtils.replaceChars(output, "•", " ");
+        output = StringUtils.replaceChars(output, "♥", " ");
+        output = StringUtils.replaceChars(output, "◕", " ");
+        output = StringUtils.replaceChars(output, "°", " ");
+        output = StringUtils.replaceChars(output, "ЖФД", " ");
+        output = StringUtils.replaceChars(output, "~", " ");
+        output = StringUtils.replaceChars(output, "¡", " ");
+        output = StringUtils.replaceChars(output, "$", " ");
+        output = StringUtils.replaceChars(output, "…", " ");
+        output = StringUtils.replaceChars(output, "^", " ");
+        output = StringUtils.replaceChars(output, "@", " ");
+        output = StringUtils.replaceChars(output, "´", " ");
 
         output = StringUtils.replaceChars(output, "&", "et");
+        output = StringUtils.replaceChars(output, "µ", "u");
+        output = StringUtils.replaceChars(output, "þ", "th");
+        output = StringUtils.replaceChars(output, "ß", "ss");
+        output = StringUtils.replaceChars(output, "­", "-");
+        output = StringUtils.replaceChars(output, "–", "-");
+        output = StringUtils.replaceChars(output, "ø", "oe");
+        output = StringUtils.replaceChars(output, "æ", "ae");
+        output = StringUtils.replaceChars(output, "Æ", "ae");
+        output = StringUtils.replaceChars(output, "Ø", "O");
+        output = StringUtils.replaceChars(output, "ӱ", "u");
+
+        output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
+        output = StringUtils.stripAccents(output);
 
         output = MatcherUtil.getMatcher("\\s+", output).replaceAll("_");
         output = MatcherUtil.getMatcher("_+", output).replaceAll("_");
