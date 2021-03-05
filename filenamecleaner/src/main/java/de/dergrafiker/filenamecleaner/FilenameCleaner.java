@@ -1,5 +1,6 @@
 package de.dergrafiker.filenamecleaner;
 
+import com.google.common.base.CaseFormat;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
@@ -31,6 +32,9 @@ public class FilenameCleaner {
         output = StringUtils.removeStart(output,".");
         output = StringUtils.removeEnd(output,".");
         output = StringUtils.removeStart(output,"-");
+
+        output = replaceUppercaseWords(output);
+        output = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, output);
 
         if (isDirectory) {
             output = StringUtils.replaceChars(output, '.', ' ');
