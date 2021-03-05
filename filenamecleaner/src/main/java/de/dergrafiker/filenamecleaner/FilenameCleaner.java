@@ -87,8 +87,11 @@ public class FilenameCleaner {
         output = StringUtils.replaceChars(output, "µ", "u");
         output = StringUtils.replaceChars(output, "þ", "th");
         output = StringUtils.replaceChars(output, "ß", "ss");
+
         output = StringUtils.replaceChars(output, "­", "-");
         output = StringUtils.replaceChars(output, "–", "-");
+        output = StringUtils.replaceChars(output, "‐", "-");
+
         output = StringUtils.replaceChars(output, "ø", "oe");
         output = StringUtils.replaceChars(output, "œ", "oe");
         output = StringUtils.replaceChars(output, "æ", "ae");
