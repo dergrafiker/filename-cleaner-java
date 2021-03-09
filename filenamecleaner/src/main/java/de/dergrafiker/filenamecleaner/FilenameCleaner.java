@@ -5,16 +5,12 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.WordUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 
 @Component
 public class FilenameCleaner {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FilenameCleaner.class);
-
     private static final String[] SEARCH_UMLAUTS = {
             "\u00c4", "\u00e4",
             "\u00d6", "\u00f6",
@@ -50,10 +46,6 @@ public class FilenameCleaner {
                 output = baseName + '.' + extension;
             }
         }
-
-//        output = StringEscapeUtils.unescapeHtml4(output);
-
-//        output = MatcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, output).replaceAll(" ");
 
         output = StringUtils.replaceChars(output, "'", " ");
         output = StringUtils.replaceChars(output, ",", " ");
@@ -116,54 +108,7 @@ public class FilenameCleaner {
 
         output = StringUtils.replaceEach(output, SEARCH_DASHES, REPLACE_DASHES);
 
-
-/*        output = removeDots(isDirectory, output);
-
-        output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
-        output = StringUtils.stripAccents(output);
-
-        output = StringUtils.replace(output, "&", " Et ");
-
-        output = replaceUppercaseWords(output);
-        output = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, output);
-
-        output = matcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, output).replaceAll(" ");
-        output = output.trim();
-
-        output = matcherUtil.getMatcher("\\s+", output).replaceAll("_");
-        output = matcherUtil.getMatcher("_+", output).replaceAll("_");
-
-        output = StringUtils.replaceEach(output, SEARCH_DASHES, REPLACE_DASHES);
-        output = StringUtils.replace(output, "_.", ".");
-
-        if (output.startsWith(".")) {
-            output = StringUtils.removeStart(output, ".");
-        }
-
-        if (output.startsWith("-")) {
-            output = StringUtils.removeStart(output, "-");
-        }
-
-        if (output.endsWith(".")) {
-            output = StringUtils.removeEnd(output, ".");
-        }*/
-
         return output;
-    }
-
-    private String removeDots(boolean isDirectory, String toClean) {
-        if (isDirectory && StringUtils.contains(toClean, '.')) {
-            return StringUtils.remove(toClean, '.');
-        } else if (StringUtils.countMatches(toClean, '.') > 1) {
-            String extension = FilenameUtils.getExtension(toClean);
-            String nameWithoutExtensionAndDots = StringUtils.remove(FilenameUtils.removeExtension(toClean), '.');
-            String newOutput = nameWithoutExtensionAndDots + '.' + extension;
-
-            LOGGER.info("Found too many dots in file. Renamed {} to {}", toClean, newOutput);
-            return newOutput;
-        } else {
-            return toClean;
-        }
     }
 
     String replaceUppercaseWords(final String output) {
