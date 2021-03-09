@@ -12,10 +12,10 @@ import java.util.regex.Matcher;
 @Component
 public class FilenameCleaner {
     private static final String[] SEARCH_UMLAUTS = {
-            "\u00c4", "\u00e4",
-            "\u00d6", "\u00f6",
-            "\u00dc", "\u00fc",
-            "\u00df", "\u1E9E"};
+            "Ä", "ä",
+            "Ö", "ö",
+            "Ü", "ü",
+            "ß", "ẞ"};
     private static final String[] REPLACE_UMLAUTS = {
             "Ae", "ae",
             "Oe", "oe",
