@@ -97,9 +97,21 @@ public class FilenameCleaner {
         output = StringUtils.replaceIgnoreCase(output, "Æ", "ae");
         output = StringUtils.replaceIgnoreCase(output, "Ø", "O");
         output = StringUtils.replaceIgnoreCase(output, "ӱ", "ue");
+        output = StringUtils.replaceIgnoreCase(output, "ë", "e");
+        output = StringUtils.replaceIgnoreCase(output, "ĝ", "g");
+        output = StringUtils.replaceIgnoreCase(output, "å", "a");
+        output = StringUtils.replaceIgnoreCase(output, "é", "e");
+        output = StringUtils.replaceIgnoreCase(output, "ï", "i");
+        output = StringUtils.replaceIgnoreCase(output, "í", "i");
+        output = StringUtils.replaceIgnoreCase(output, "ñ", "n");
+        output = StringUtils.replaceIgnoreCase(output, "ç", "c");
+        output = StringUtils.replaceIgnoreCase(output, "ã", "a");
+        output = StringUtils.replaceIgnoreCase(output, "Á", "A");
+        output = StringUtils.replaceIgnoreCase(output, "à", "a");
+        output = StringUtils.replaceIgnoreCase(output, "è", "e");
+        output = StringUtils.replaceIgnoreCase(output, "ó", "o");
 
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
-        output = StringUtils.stripAccents(output);
 
         output = output.trim();
 
