@@ -35,10 +35,6 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         }
 
         fixName(dir);
-
-        System.out.println(dir);
-
-//        LOGGER.trace("WALKED dir {}", dir);
         dirCounter++;
         return CONTINUE;
     }
@@ -57,10 +53,7 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         String cleaned = filenameCleaner.clean(oldName, isDirectory);
 
         Path absolutePath = path.getParent().toAbsolutePath();
-        System.out.println(absolutePath);
-        System.out.println(oldName);
-        System.out.println(cleaned);
-        System.out.println();
+        System.out.println(absolutePath + " || " + oldName + " => " + cleaned);
 
         if (filenameChecker.isInvalid(cleaned, isDirectory)) {
             String invalid = MatcherUtil.getMatcher("[-_.A-Za-z0-9]+", cleaned).replaceAll("");
