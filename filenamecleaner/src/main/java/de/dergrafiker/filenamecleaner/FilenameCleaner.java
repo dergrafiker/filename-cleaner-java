@@ -82,35 +82,35 @@ public class FilenameCleaner {
         output = StringUtils.replaceChars(output, "£", " ");
         output = StringUtils.replaceChars(output, "∞", " ");
 
-        output = StringUtils.replaceIgnoreCase(output, "&", "et");
-        output = StringUtils.replaceIgnoreCase(output, "µ", "u");
-        output = StringUtils.replaceIgnoreCase(output, "þ", "th");
-        output = StringUtils.replaceIgnoreCase(output, "ß", "ss");
+        output = StringUtils.replace(output, "&", "et");
+        output = StringUtils.replace(output, "µ", "u");
+        output = StringUtils.replace(output, "þ", "th");
+        output = StringUtils.replace(output, "ß", "ss");
 
-        output = StringUtils.replaceIgnoreCase(output, "­", "-");
-        output = StringUtils.replaceIgnoreCase(output, "–", "-");
-        output = StringUtils.replaceIgnoreCase(output, "‐", "-");
+        output = StringUtils.replace(output, "­", "-");
+        output = StringUtils.replace(output, "–", "-");
+        output = StringUtils.replace(output, "‐", "-");
 
-        output = StringUtils.replaceIgnoreCase(output, "ø", "oe");
-        output = StringUtils.replaceIgnoreCase(output, "œ", "oe");
-        output = StringUtils.replaceIgnoreCase(output, "æ", "ae");
-        output = StringUtils.replaceIgnoreCase(output, "Æ", "ae");
-        output = StringUtils.replaceIgnoreCase(output, "Ø", "O");
-        output = StringUtils.replaceIgnoreCase(output, "ӱ", "ue");
-        output = StringUtils.replaceIgnoreCase(output, "ë", "e");
-        output = StringUtils.replaceIgnoreCase(output, "ĝ", "g");
-        output = StringUtils.replaceIgnoreCase(output, "å", "a");
-        output = StringUtils.replaceIgnoreCase(output, "é", "e");
-        output = StringUtils.replaceIgnoreCase(output, "ï", "i");
-        output = StringUtils.replaceIgnoreCase(output, "í", "i");
-        output = StringUtils.replaceIgnoreCase(output, "ñ", "n");
-        output = StringUtils.replaceIgnoreCase(output, "ç", "c");
-        output = StringUtils.replaceIgnoreCase(output, "ã", "a");
-        output = StringUtils.replaceIgnoreCase(output, "Á", "A");
-        output = StringUtils.replaceIgnoreCase(output, "Â", "A");
-        output = StringUtils.replaceIgnoreCase(output, "à", "a");
-        output = StringUtils.replaceIgnoreCase(output, "è", "e");
-        output = StringUtils.replaceIgnoreCase(output, "ó", "o");
+        output = StringUtils.replace(output, "ø", "oe");
+        output = StringUtils.replace(output, "œ", "oe");
+        output = StringUtils.replace(output, "æ", "ae");
+        output = StringUtils.replace(output, "Æ", "ae");
+        output = StringUtils.replace(output, "Ø", "O");
+        output = StringUtils.replace(output, "ӱ", "ue");
+        output = StringUtils.replace(output, "ë", "e");
+        output = StringUtils.replace(output, "ĝ", "g");
+        output = StringUtils.replace(output, "å", "a");
+        output = StringUtils.replace(output, "é", "e");
+        output = StringUtils.replace(output, "ï", "i");
+        output = StringUtils.replace(output, "í", "i");
+        output = StringUtils.replace(output, "ñ", "n");
+        output = StringUtils.replace(output, "ç", "c");
+        output = StringUtils.replace(output, "ã", "a");
+        output = StringUtils.replace(output, "Á", "A");
+        output = StringUtils.replace(output, "Â", "A");
+        output = StringUtils.replace(output, "à", "a");
+        output = StringUtils.replace(output, "è", "e");
+        output = StringUtils.replace(output, "ó", "o");
 
         output = StringUtils.replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
 
