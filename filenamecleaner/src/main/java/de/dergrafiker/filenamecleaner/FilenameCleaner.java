@@ -107,6 +107,7 @@ public class FilenameCleaner {
         output = StringUtils.replaceIgnoreCase(output, "ç", "c");
         output = StringUtils.replaceIgnoreCase(output, "ã", "a");
         output = StringUtils.replaceIgnoreCase(output, "Á", "A");
+        output = StringUtils.replaceIgnoreCase(output, "Â", "A");
         output = StringUtils.replaceIgnoreCase(output, "à", "a");
         output = StringUtils.replaceIgnoreCase(output, "è", "e");
         output = StringUtils.replaceIgnoreCase(output, "ó", "o");
