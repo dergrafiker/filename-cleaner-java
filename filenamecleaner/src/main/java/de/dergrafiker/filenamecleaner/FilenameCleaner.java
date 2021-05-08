@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 
-import static de.dergrafiker.filenamecleaner.MatcherUtil.MANY_UPPERCASE_PATTERN;
 import static de.dergrafiker.filenamecleaner.MatcherUtil.getMatcher;
 import static org.apache.commons.lang3.StringUtils.countMatches;
 import static org.apache.commons.lang3.StringUtils.removeEnd;
@@ -32,6 +31,7 @@ public class FilenameCleaner {
             "ss", "ss"};
     private static final String[] SEARCH_DASHES = {"_-_", "-_", "_-"}; //can be replaced by regex [_-]+
     private static final String[] REPLACE_DASHES = {"-", "-", "-"};
+    private static final String TWO_OR_MORE_UPPERCASE_LETTERS = "[A-Z]{2,}";
 
     String clean(final String name, final boolean isDirectory) {
         String output = name.trim();
@@ -136,7 +136,7 @@ public class FilenameCleaner {
     String replaceUppercaseWords(final String output) {
         String cleaned = output;
 
-        final Matcher matcher = getMatcher(MANY_UPPERCASE_PATTERN, output);
+        final Matcher matcher = getMatcher(TWO_OR_MORE_UPPERCASE_LETTERS, output);
 
         while (matcher.find()) {
             String ucWord = matcher.group();
