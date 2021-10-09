@@ -53,7 +53,9 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         String cleaned = filenameCleaner.clean(oldName, isDirectory);
 
         Path absolutePath = path.getParent().toAbsolutePath();
-        System.out.println(absolutePath + " || " + oldName + " => " + cleaned);
+        if (!oldName.equals(cleaned)) {
+            System.out.println(absolutePath + " || " + oldName + " => " + cleaned);
+        }
 
         if (filenameChecker.isInvalid(cleaned, isDirectory)) {
             String invalid = MatcherUtil.getMatcher("[-_.A-Za-z0-9]+", cleaned).replaceAll("");
