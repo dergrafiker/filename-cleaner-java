@@ -22,6 +22,8 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
     private int fileCounter = 0;
     private int dirCounter = 0;
 
+    private String dirPath = null;
+
     public FileVisitor(FilenameChecker filenameChecker,
                        FilenameCleaner filenameCleaner) {
         this.filenameChecker = filenameChecker;
@@ -47,14 +49,20 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
     }
 
     private void fixName(Path path) {
+        Path absolutePath = path.getParent().toAbsolutePath();
+
+        if (!absolutePath.toString().equals(dirPath)) {
+            dirPath = absolutePath.toString();
+            System.out.println(dirPath);
+            System.out.println();
+        }
+
         String oldName = path.getFileName().toString();
         boolean isDirectory = Files.isDirectory(path);
 
         String cleaned = filenameCleaner.clean(oldName, isDirectory);
-
-        Path absolutePath = path.getParent().toAbsolutePath();
         if (!oldName.equals(cleaned)) {
-            System.out.println(absolutePath + " || " + oldName + " => " + cleaned);
+            System.out.println(oldName + " => " + cleaned);
         }
 
         if (filenameChecker.isInvalid(cleaned, isDirectory)) {
