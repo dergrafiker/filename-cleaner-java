@@ -39,6 +39,7 @@ public class Main implements CommandLineRunner {
     @Override
     public void run(String... args) {
         try {
+            //footest
             if (args.length != 1) {
                 throw new IllegalArgumentException("Please provide a root path");
             }
