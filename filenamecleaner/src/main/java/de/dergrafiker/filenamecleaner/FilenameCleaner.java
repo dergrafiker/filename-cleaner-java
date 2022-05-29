@@ -110,6 +110,7 @@ public class FilenameCleaner {
         output = replace(output, "ĝ", "g");
         output = replace(output, "å", "a");
         output = replace(output, "é", "e");
+        output = replace(output, "é", "e");
         output = replace(output, "ï", "i");
         output = replace(output, "í", "i");
         output = replace(output, "ñ", "n");
@@ -120,6 +121,7 @@ public class FilenameCleaner {
         output = replace(output, "à", "a");
         output = replace(output, "è", "e");
         output = replace(output, "ó", "o");
+        output = replace(output, "π", "pi");
 
         output = replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
 
