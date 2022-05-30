@@ -68,6 +68,9 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         if (filenameChecker.isInvalid(cleaned, isDirectory)) {
             String invalid = MatcherUtil.getMatcher("[-_.A-Za-z0-9]+", cleaned).replaceAll("");
 
+            //char[] nfc = Normalizer.normalize(cleaned, Normalizer.Form.NFC).toCharArray();
+            //char[] nfkc = Normalizer.normalize(cleaned, Normalizer.Form.NFKC).toCharArray();
+
             throw new IllegalArgumentException(
                     String.format("Name is still invalid after clean '%s' => '%s' [%s] %s",
                             oldName,
