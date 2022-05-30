@@ -9,13 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 
 import static de.dergrafiker.filenamecleaner.MatcherUtil.getMatcher;
-import static org.apache.commons.lang3.StringUtils.countMatches;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
-import static org.apache.commons.lang3.StringUtils.removeStart;
-import static org.apache.commons.lang3.StringUtils.replace;
-import static org.apache.commons.lang3.StringUtils.replaceChars;
-import static org.apache.commons.lang3.StringUtils.replaceEach;
-import static org.apache.commons.lang3.StringUtils.replaceOnce;
+import static org.apache.commons.lang3.StringUtils.*;
 
 @Component
 public class FilenameCleaner {
@@ -122,6 +116,8 @@ public class FilenameCleaner {
         output = replace(output, "è", "e");
         output = replace(output, "ó", "o");
         output = replace(output, "π", "pi");
+        output = replace(output, "д", "d");
+        output = replace(output, "н", "n");
 
         output = replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
 
