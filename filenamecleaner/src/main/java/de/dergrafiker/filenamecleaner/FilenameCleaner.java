@@ -98,7 +98,7 @@ public class FilenameCleaner {
         output = replace(output, "œ", "oe");
         output = replace(output, "æ", "ae");
         output = replace(output, "Æ", "ae");
-        output = replace(output, "Ø", "O");
+        output = replace(output, "Ø", "oe");
         output = replace(output, "ӱ", "ue");
         output = replace(output, "ë", "e");
         output = replace(output, "ĝ", "g");
@@ -120,7 +120,6 @@ public class FilenameCleaner {
         output = replace(output, "н", "n");
         output = replace(output, "š", "s");
         output = replace(output, "ą", "a");
-
 
         output = replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
 
