@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.text.Normalizer;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
@@ -58,18 +59,21 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         }
 
         String oldName = path.getFileName().toString();
+        String normalized = Normalizer.normalize(oldName, Normalizer.Form.NFC);
+
+        if (!oldName.equals(normalized)) {
+            System.out.println("normalized " + oldName + " => " + normalized);
+        }
+
         boolean isDirectory = Files.isDirectory(path);
 
-        String cleaned = filenameCleaner.clean(oldName, isDirectory);
+        String cleaned = filenameCleaner.clean(normalized, isDirectory);
         if (!oldName.equals(cleaned)) {
             System.out.println(oldName + " => " + cleaned);
         }
 
         if (filenameChecker.isInvalid(cleaned, isDirectory)) {
             String invalid = MatcherUtil.getMatcher("[-_.A-Za-z0-9]+", cleaned).replaceAll("");
-
-            //char[] nfc = Normalizer.normalize(cleaned, Normalizer.Form.NFC).toCharArray();
-            //char[] nfkc = Normalizer.normalize(cleaned, Normalizer.Form.NFKC).toCharArray();
 
             throw new IllegalArgumentException(
                     String.format("Name is still invalid after clean '%s' => '%s' [%s] %s",
