@@ -118,6 +118,9 @@ public class FilenameCleaner {
         output = replace(output, "π", "pi");
         output = replace(output, "д", "d");
         output = replace(output, "н", "n");
+        output = replace(output, "š", "s");
+        output = replace(output, "ą", "a");
+
 
         output = replaceEach(output, SEARCH_UMLAUTS, REPLACE_UMLAUTS);
 

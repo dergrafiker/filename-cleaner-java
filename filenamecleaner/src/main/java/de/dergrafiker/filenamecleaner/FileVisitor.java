@@ -75,13 +75,15 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         if (filenameChecker.isInvalid(cleaned, isDirectory)) {
             String invalid = MatcherUtil.getMatcher("[-_.A-Za-z0-9]+", cleaned).replaceAll("");
 
-            throw new IllegalArgumentException(
-                    String.format("Name is still invalid after clean '%s' => '%s' [%s] %s",
-                            oldName,
-                            cleaned,
-                            absolutePath,
-                            invalid)
-            );
+
+            String message = String.format("Name is still invalid after clean '%s' => '%s' [%s] %s",
+                    oldName,
+                    cleaned,
+                    absolutePath,
+                    invalid);
+
+            System.err.println(message);
+            //throw new IllegalArgumentException(message);
         }
     }
 
