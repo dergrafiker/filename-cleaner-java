@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.tinylog.Logger;
 
 @Configuration
 @Import({
@@ -22,8 +21,6 @@ import org.springframework.context.annotation.Import;
 })
 public class Main implements CommandLineRunner {
 
-  private static final Logger LOG = LoggerFactory.getLogger(Main.class);
-
   private final FileVisitor printFiles;
 
   public Main(FileVisitor printFiles) {
@@ -31,9 +28,9 @@ public class Main implements CommandLineRunner {
   }
 
   public static void main(String[] args) {
-    LOG.info("STARTING THE APPLICATION");
+    Logger.info("STARTING THE APPLICATION");
     SpringApplication.run(Main.class, args);
-    LOG.info("APPLICATION FINISHED");
+    Logger.info("APPLICATION FINISHED");
   }
 
   @Override
@@ -50,7 +47,7 @@ public class Main implements CommandLineRunner {
       System.out.println("dirs " + printFiles.getDirCounter());
 
     } catch (IOException e) {
-      LOG.error("", e);
+      Logger.error("", e);
     }
   }
 }
