@@ -12,32 +12,32 @@ import org.springframework.stereotype.Component;
 @Component
 public class FilenameChecker {
 
-    public boolean isInvalid(final String input, final boolean isDirectory) {
-        return wrongStartOrEnd(input)
-                || wrongDirectoryName(isDirectory, input)
-                || wrongFilename(isDirectory, input)
-                || hasInvalidChars(input);
-    }
+  public boolean isInvalid(final String input, final boolean isDirectory) {
+    return wrongStartOrEnd(input)
+        || wrongDirectoryName(isDirectory, input)
+        || wrongFilename(isDirectory, input)
+        || hasInvalidChars(input);
+  }
 
-    boolean hasInvalidChars(final String input) {
-        return MatcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, input).find();
-    }
+  boolean hasInvalidChars(final String input) {
+    return MatcherUtil.getMatcher(MatcherUtil.INVALID_CHARS_PATTERN, input).find();
+  }
 
-    boolean wrongFilename(boolean isDirectory, String input) {
-        return !isDirectory && hasMoreThanOneDot(input);
-    }
+  boolean wrongFilename(boolean isDirectory, String input) {
+    return !isDirectory && hasMoreThanOneDot(input);
+  }
 
-    boolean hasMoreThanOneDot(String input) {
-        return StringUtils.countMatches(input, '.') > 1;
-    }
+  boolean hasMoreThanOneDot(String input) {
+    return StringUtils.countMatches(input, '.') > 1;
+  }
 
-    boolean wrongDirectoryName(final boolean isDirectory, final String input) {
-        return isDirectory && input.contains(".");
-    }
+  boolean wrongDirectoryName(final boolean isDirectory, final String input) {
+    return isDirectory && input.contains(".");
+  }
 
-    boolean wrongStartOrEnd(final String input) {
-        return input.startsWith("-")
-                || input.startsWith(".")
-                || input.endsWith(".");
-    }
+  boolean wrongStartOrEnd(final String input) {
+    return input.startsWith("-")
+        || input.startsWith(".")
+        || input.endsWith(".");
+  }
 }
