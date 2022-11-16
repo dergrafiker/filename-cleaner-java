@@ -9,14 +9,11 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.Normalizer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.tinylog.Logger;
 
 @Component
 public class FileVisitor extends SimpleFileVisitor<Path> {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(FileVisitor.class);
   private final FilenameChecker filenameChecker;
   private final FilenameCleaner filenameCleaner;
 
@@ -54,22 +51,21 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
 
     if (!absolutePath.toString().equals(dirPath)) {
       dirPath = absolutePath.toString();
-      System.out.println(dirPath);
-      System.out.println();
+      Logger.info(dirPath);
     }
 
     String oldName = path.getFileName().toString();
     String normalized = Normalizer.normalize(oldName, Normalizer.Form.NFC);
 
     if (!oldName.equals(normalized)) {
-      System.out.println("normalized " + oldName + " => " + normalized);
+      Logger.info("normalized " + oldName + " => " + normalized);
     }
 
     boolean isDirectory = Files.isDirectory(path);
 
     String cleaned = filenameCleaner.clean(normalized, isDirectory);
     if (!oldName.equals(cleaned)) {
-      System.out.println(oldName + " => " + cleaned);
+      Logger.info(oldName + " => " + cleaned);
     }
 
     if (filenameChecker.isInvalid(cleaned, isDirectory)) {
@@ -81,8 +77,7 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
           absolutePath,
           invalid);
 
-      System.err.println(message);
-      //throw new IllegalArgumentException(message);
+      Logger.error(message);
     }
   }
 

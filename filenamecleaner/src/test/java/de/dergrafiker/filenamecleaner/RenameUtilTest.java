@@ -1,12 +1,8 @@
 package de.dergrafiker.filenamecleaner;
 
-import org.easymock.EasyMockExtension;
-import org.easymock.EasyMockSupport;
-import org.easymock.Mock;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.easymock.EasyMock.expect;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,10 +12,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.easymock.EasyMock.expect;
+import org.easymock.EasyMockExtension;
+import org.easymock.EasyMockSupport;
+import org.easymock.Mock;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(EasyMockExtension.class)
 class RenameUtilTest extends EasyMockSupport {
@@ -60,8 +59,9 @@ class RenameUtilTest extends EasyMockSupport {
         assertThat(results).hasSize(1);
 
         String foundFilename = results.get(0).getFileName().toString();
-        assertThat(foundFilename).isEqualTo(upperCaseFile.getFileName().toString());
-        assertThat(foundFilename).isNotEqualTo(lowerCaseFile.getFileName().toString());
+        assertThat(foundFilename)
+            .isEqualTo(upperCaseFile.getFileName().toString())
+            .isNotEqualTo(lowerCaseFile.getFileName().toString());
     }
 
     @Test
@@ -92,8 +92,9 @@ class RenameUtilTest extends EasyMockSupport {
         assertThat(subFolder).hasSize(1);
 
         String foundFilename = subFolder.get(0).getFileName().toString();
-        assertThat(foundFilename).isEqualTo(upperCaseFile.getFileName().toString());
-        assertThat(foundFilename).isNotEqualTo(lowerCaseFile.getFileName().toString());
+        assertThat(foundFilename)
+            .isEqualTo(upperCaseFile.getFileName().toString())
+            .isNotEqualTo(lowerCaseFile.getFileName().toString());
     }
 
     @Test

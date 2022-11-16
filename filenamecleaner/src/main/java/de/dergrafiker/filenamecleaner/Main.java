@@ -43,8 +43,8 @@ public class Main implements CommandLineRunner {
       final Path rootPath = Paths.get(args[0]);
       Files.walkFileTree(rootPath, printFiles);
 
-      System.out.println("files " + printFiles.getFileCounter());
-      System.out.println("dirs " + printFiles.getDirCounter());
+      Logger.info("files " + printFiles.getFileCounter());
+      Logger.info("dirs " + printFiles.getDirCounter());
 
     } catch (IOException e) {
       Logger.error("", e);
